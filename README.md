@@ -1,5 +1,5 @@
 # EVAT-Web-Application
-EVAT is a mobile application designed to streamline vehicle management. This repository contains the DevOps codebase for the EVAT web application.
+
 ## Table of Contents
 
 - Introduction
@@ -12,7 +12,7 @@ EVAT is a mobile application designed to streamline vehicle management. This rep
 
 ## Introduction
 
-The EVAT web application allows users to manage their vehicles efficiently. This includes features like signing up, logging in, and adding vehicle details.
+The EVAT mobile application allows users Find the nearest charging vehicle station efficiently and is designed to streamline vehicle management. This repository contains the DevOps codebase for the EVAT web application.
 
 ## Features
 

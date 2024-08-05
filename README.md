@@ -51,9 +51,7 @@ For any inquiries, please contact us at s222575318@deakin.edu.au.
 
 ### License
 
-For the license, the MIT License is a popular choice for open-source projects. Here’s a template for the `LICENSE` file:
-
-```markdown
+For the license, the MIT License is a popular choice for open-source projects. 
 MIT License
 
 Copyright (c) 2024 Chameleon-company

@@ -47,7 +47,7 @@ We welcome contributions! Please follow these steps to contribute:
 License
 This project is licensed under the MIT License - see the LICENSE file for details.
 Contact
-For any inquiries, please contact us at [your-email@example.com].
+For any inquiries, please contact us at s222575318@deakin.edu.au.
 
 ### License
 

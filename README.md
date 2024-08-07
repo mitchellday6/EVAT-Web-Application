@@ -44,25 +44,25 @@ To get started with the project, follow these steps:
 To start the development server, run:
 ```bash
 npm start
-
+```
 Development
 To run the front end project locally, from the root project run:
 ```bash
 cd front_end_project && npm run start
-
+```
 To run the back end project locally, from the root project run:
 ```bash
 cd back_end_project && npm run start
-
+```
 To launch both the node server and react app, run:
 ```bash
 npm run devall
-
+```
 Note: npm run devall isn’t working currently.
 To launch the node server alone, run:
 ```bash
 npm run server
-
+```
 This can be used by API developers to test their API through POSTMAN.
 Development should follow the Feature branch git workflow. Important: Never commit directly to main.
 When pulling the latest from GitHub, you may need to run npm install if any packages were added or removed in past commits. If you are experiencing errors unrelated to the code you are writing (or before writing any), try running npm install.
@@ -72,15 +72,15 @@ Fork the repository.
 Create a new branch:
 ```bash
 git checkout -b feature/your-feature
-
+```
 Commit your changes:
 ```bash
 git commit -m 'Add some feature'
-
+```
 Push to the branch:
 ```bash
 git push origin feature/your-feature
-
+``
 Open a pull request.
 
 Code Quality

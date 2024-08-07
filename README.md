@@ -68,9 +68,10 @@ Development should follow the Feature branch git workflow. Important: Never comm
 When pulling the latest from GitHub, you may need to run npm install  if any packages were added or removed in past commits. If you are experiencing errors unrelated to the code you are writing (or before writing any), try running npm install.
 
 ##Contributing
+
 We welcome contributions! Please follow these steps to contribute:
-Fork the repository.
-Create a new branch:
+**Fork the repository.**
+**Create a new branch:**
 ```bash
 git checkout -b feature/your-feature
 ```

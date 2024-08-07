@@ -83,21 +83,24 @@ Push to the branch:
 ```bash
 git push origin feature/your-feature
 ```
-Open a pull request.
+## Code Quality
 
-##Code Quality
-###Linting
-Code quality is enforced by ESLint, which is configured as a custom eslint plugin shared across the entire project in eslintrc.js. Each package/app requires its own .eslintrc.js file.
+### Linting
 
--Components, component directories, component files, and stories all use PascalCase / UpperCamelCase.
--Variables and functions use camelCase.
--Single quotes for strings.
--Do not use string interpolation for CSS classes.
--Do not use CSS-in-JS, StyledComponents, or Emotion CSS.
+Code quality is enforced by ESLint, which is configured as a custom eslint plugin shared across the entire project in `eslintrc.js`. Each package/app requires its own `.eslintrc.js` file.
 
-##Git Etiquette
-###Branching
-Branches are used for isolated feature development and should always branch from the source they intend to merge into. This means that a branch created from main must always end up in main.
+- Components, component directories, component files, and stories all use PascalCase / UpperCamelCase.
+- Variables and functions use camelCase.
+- Single quotes for strings.
+- Do not use string interpolation for CSS classes.
+- Do not use CSS-in-JS, StyledComponents, or Emotion CSS.
+
+## Git Etiquette
+
+### Branching
+
+Branches are used for isolated feature development and should always branch from the source they intend to merge into. This means that a branch created from `main` must always end up in `main`.
+
 ```bash
 Using the example branches of main -> feature-1 -> feature-2…
 ❌ Do not merge feature-1 into main before feature-2 is merged.

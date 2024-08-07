@@ -45,7 +45,7 @@ To start the development server, run:
 ```bash
 npm start
 ```
-Development
+**Development**
 To run the front end project locally, from the root project run:
 ```bash
 cd front_end_project && npm run start
@@ -123,11 +123,11 @@ type refers to what kind of commit is being made. Some example values are:
 ```bash docs``` // documentation work
 ```bash feat``` // feature work
 ```bash fix``` // bugfixes or hotfixes
-perf // performance tuning & optimization
-refactor // code refactoring
-revert // reverting previously committed changes
-style // styling changes
-test // changes to tests
+```bash perf``` // performance tuning & optimization
+```bash refactor``` // code refactoring
+```bashrevert``` // reverting previously committed changes
+```bashstyle``` // styling changes
+```bashtest``` // changes to tests
 scope provides context to the commit type, most commonly a TRELLO ticket or some project name.
 body refers to the bulk of the commit message, which can break up into header and footer sections delimited by newlines.
 A header is the body section on the first line of the commit message.

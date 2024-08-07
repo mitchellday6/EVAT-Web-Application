@@ -118,42 +118,51 @@ The preferred format for a commit message looks like this. Note that only the bo
 "fix(component): fixed some issue"
 ```
 
--type refers to what kind of commit is being made. Some example values are:
---```build``` // related to build processes
---```chore``` // small cleanup activities or other pedantry
---```ci ```// related to continuous integration activities
---```docs``` // documentation work
---```feat``` // feature work
---```fix``` // bugfixes or hotfixes
---```perf``` // performance tuning & optimization
---```refactor``` // code refactoring
---``` revert``` // reverting previously committed changes
---```style``` // styling changes
---```test``` // changes to tests
--**scope** provides context to the commit type, most commonly a TRELLO ticket or some project name.
--**body** refers to the bulk of the commit message, which can break up into header and footer sections delimited by newlines.
--A header is the body section on the first line of the commit message.
--A footer is entered a full newline separated from the header and may contain any length of UTF-8 content.
+## Commit Types
 
-##APIs
+- **type** refers to what kind of commit is being made. Some example values are:
+  - `--build` // related to build processes
+  - `--chore` // small cleanup activities or other pedantry
+  - `--ci` // related to continuous integration activities
+  - `--docs` // documentation work
+  - `--feat` // feature work
+  - `--fix` // bugfixes or hotfixes
+  - `--perf` // performance tuning & optimization
+  - `--refactor` // code refactoring
+  - `--revert` // reverting previously committed changes
+  - `--style` // styling changes
+  - `--test` // changes to tests
+
+- **scope** provides context to the commit type, most commonly a TRELLO ticket or some project name.
+- **body** refers to the bulk of the commit message, which can break up into header and footer sections delimited by newlines.
+  - A **header** is the body section on the first line of the commit message.
+  - A **footer** is entered a full newline separated from the header and may contain any length of UTF-8 content.
+
+## APIs
+
 Here are the APIs that will be used in the EVAT Mobile application:
-###User Management
--User Registration API
--User Login API
--User Profile API
-###Vehicle Management
--Add Vehicle API
--View Vehicle Details API
--Update Vehicle API
--Delete Vehicle API
-###Charging Station
--Find Nearest Charging Station API
--Real-time Charging Station Availability API
-###Maps Integration
--Google Maps API (for displaying maps and locations)
--Geolocation API (for getting the user’s current location)
-###Backend
--MongoDB API (for database operations)
+
+### User Management
+- User Registration API
+- User Login API
+- User Profile API
+
+### Vehicle Management
+- Add Vehicle API
+- View Vehicle Details API
+- Update Vehicle API
+- Delete Vehicle API
+
+### Charging Station
+- Find Nearest Charging Station API
+- Real-time Charging Station Availability API
+
+### Maps Integration
+- Google Maps API (for displaying maps and locations)
+- Geolocation API (for getting the user’s current location)
+
+### Backend
+- MongoDB API (for database operations)
 
 ##License
 This project is licensed under the MIT License - see the LICENSE file for details.

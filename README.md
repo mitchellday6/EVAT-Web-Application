@@ -108,7 +108,8 @@ Using the example branches of main -> feature-1 -> feature-2…
 ✅ Do branch feature-2 from main since it should not depend on feature-1.
 Note: If it’s entirely necessary to merge feature-1 before feature-2, ensure that no manual commits are made in feature-2 between the last commit & merge commit to main of feature-1.
 ```
-##Commit Messages
+## Commit Messages
+
 There are no hard constraints imposed on commit messaging. Instead, the following guidelines show a best-practice approach to producing consumable commit messaging.
 The preferred format for a commit message looks like this. Note that only the body is required:
 ```bash
@@ -137,7 +138,7 @@ The preferred format for a commit message looks like this. Note that only the bo
   - `--style` // styling changes
   - `--test` // changes to tests
 
-- **scope** provides context to the commit type, most commonly a TRELLO ticket or some project name.
+- **scope** provides context to the commit type, most commonly a MS planner ticket or some project name.
 - **body** refers to the bulk of the commit message, which can break up into header and footer sections delimited by newlines.
   - A **header** is the body section on the first line of the commit message.
   - A **footer** is entered a full newline separated from the header and may contain any length of UTF-8 content.

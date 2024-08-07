@@ -119,17 +119,17 @@ The preferred format for a commit message looks like this. Note that only the bo
 ```
 
 -type refers to what kind of commit is being made. Some example values are:
---```bash build``` // related to build processes
---```bash chore``` // small cleanup activities or other pedantry
---```bash ci ```// related to continuous integration activities
---```bash docs``` // documentation work
---```bash feat``` // feature work
---```bash fix``` // bugfixes or hotfixes
---```bash perf``` // performance tuning & optimization
---```bash refactor``` // code refactoring
---```bashrevert``` // reverting previously committed changes
---```bashstyle``` // styling changes
---```bashtest``` // changes to tests
+--```build``` // related to build processes
+--```chore``` // small cleanup activities or other pedantry
+--```ci ```// related to continuous integration activities
+--```docs``` // documentation work
+--```feat``` // feature work
+--```fix``` // bugfixes or hotfixes
+--```perf``` // performance tuning & optimization
+--```refactor``` // code refactoring
+--``` revert``` // reverting previously committed changes
+--```style``` // styling changes
+--```test``` // changes to tests
 -**scope** provides context to the commit type, most commonly a TRELLO ticket or some project name.
 -**body** refers to the bulk of the commit message, which can break up into header and footer sections delimited by newlines.
 -A header is the body section on the first line of the commit message.

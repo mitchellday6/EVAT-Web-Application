@@ -2,6 +2,7 @@
 # EVAT Mobile Application
 
 ## Table of Contents
+
 - Introduction
 - Features
 - Installation
@@ -14,75 +15,99 @@
 - Contact
 
 ## Introduction
+
 The EVAT mobile application allows users to find the nearest vehicle charging station efficiently and is designed to streamline vehicle management. This repository contains the DevOps codebase for the EVAT web application.
 
 ## Features
+
 - User Registration
 - User Login
 - Add Vehicle
 - View Vehicle Details
 
 ## Installation
+
 To get started with the project, follow these steps:
 
 1. Clone the repository:
+
     ```bash
     git clone https://github.com/yourusername/EVAT-web-application.git
     ```
 
 2. Navigate to the project directory:
+
     ```bash
     cd EVAT-web-application
     ```
 
 3. Install dependencies:
+
     ```bash
     npm install
     ```
 
 ## Usage
+
 To start the development server, run:
+
 ```bash
 npm start
 ```
+
 ## Development
+
 To run the front end project locally, from the root project run:
+
 ```bash
 cd front_end_project && npm run start
 ```
+
 To run the back end project locally, from the root project run:
+
 ```bash
 cd back_end_project && npm run start
 ```
+
 To launch both the node server and react app, run:
+
 ```bash
 npm run devall
 ```
+
 Note: npm run devall isn’t working currently.
 To launch the node server alone, run:
+
 ```bash
 npm run server
 ```
+
 This can be used by API developers to test their API through POSTMAN.
 Development should follow the Feature branch git workflow. Important: Never commit directly to main.
 When pulling the latest from GitHub, you may need to run npm install  if any packages were added or removed in past commits. If you are experiencing errors unrelated to the code you are writing (or before writing any), try running npm install.
 
-##Contributing
+## Contributing
 
 We welcome contributions! Please follow these steps to contribute:
 **Fork the repository.**
 **Create a new branch:**
+
 ```bash
 git checkout -b feature/your-feature
 ```
+
 Commit your changes:
+
 ```bash
 git commit -m 'Add some feature'
 ```
+
 Push to the branch:
+
 ```bash
 git push origin feature/your-feature
 ```
+
 ## Code Quality
 
 ### Linting
@@ -108,10 +133,12 @@ Using the example branches of main -> feature-1 -> feature-2…
 ✅ Do branch feature-2 from main since it should not depend on feature-1.
 Note: If it’s entirely necessary to merge feature-1 before feature-2, ensure that no manual commits are made in feature-2 between the last commit & merge commit to main of feature-1.
 ```
+
 ## Commit Messages
 
 There are no hard constraints imposed on commit messaging. Instead, the following guidelines show a best-practice approach to producing consumable commit messaging.
 The preferred format for a commit message looks like this. Note that only the body is required:
+
 ```bash
 # format...
 "type?(scope?): body..."
@@ -148,31 +175,35 @@ The preferred format for a commit message looks like this. Note that only the bo
 Here are the APIs that will be used in the EVAT Mobile application:
 
 ### User Management
+
 - User Registration API
 - User Login API
 - User Profile API
 
 ### Vehicle Management
+
 - Add Vehicle API
 - View Vehicle Details API
 - Update Vehicle API
 - Delete Vehicle API
 
 ### Charging Station
+
 - Find Nearest Charging Station API
 - Real-time Charging Station Availability API
 
 ### Maps Integration
+
 - Google Maps API (for displaying maps and locations)
 - Geolocation API (for getting the user’s current location)
 
 ### Backend
-- MongoDB API (for database operations)
 
+- MongoDB API (for database operations)
 
 ### License
 
-For the license, the MIT License is a popular choice for open-source projects. 
+For the license, the MIT License is a popular choice for open-source projects.
 MIT License
 
 Copyright (c) 2024 Chameleon-company
@@ -194,4 +225,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-

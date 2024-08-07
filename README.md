@@ -94,14 +94,18 @@ Do not use CSS-in-JS, StyledComponents, or Emotion CSS.
 Git Etiquette
 Branching
 Branches are used for isolated feature development and should always branch from the source they intend to merge into. This means that a branch created from main must always end up in main.
+```bash
 Using the example branches of main -> feature-1 -> feature-2…
 ❌ Do not merge feature-1 into main before feature-2 is merged.
 ❌ Do not merge feature-2 directly into main, only its parent branch.
 ✅ Do branch feature-2 from main since it should not depend on feature-1.
 Note: If it’s entirely necessary to merge feature-1 before feature-2, ensure that no manual commits are made in feature-2 between the last commit & merge commit to main of feature-1.
 Commit Messages
+```
+
 There are no hard constraints imposed on commit messaging. Instead, the following guidelines show a best-practice approach to producing consumable commit messaging.
 The preferred format for a commit message looks like this. Note that only the body is required:
+```bash
 # format...
 "type?(scope?): body..."
 
@@ -110,14 +114,15 @@ The preferred format for a commit message looks like this. Note that only the bo
 "fix: fixed some issue"
 "fix(US-123): fixed some issue"
 "fix(component): fixed some issue"
+```
 
 type refers to what kind of commit is being made. Some example values are:
-build // related to build processes
-chore // small cleanup activities or other pedantry
-ci // related to continuous integration activities
-docs // documentation work
-feat // feature work
-fix // bugfixes or hotfixes
+```bash build``` // related to build processes
+```bash chore``` // small cleanup activities or other pedantry
+```bash ci ```// related to continuous integration activities
+```bash docs``` // documentation work
+```bash feat``` // feature work
+```bash fix``` // bugfixes or hotfixes
 perf // performance tuning & optimization
 refactor // code refactoring
 revert // reverting previously committed changes

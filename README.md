@@ -45,7 +45,7 @@ To start the development server, run:
 ```bash
 npm start
 ```
-**Development**
+## Development
 To run the front end project locally, from the root project run:
 ```bash
 cd front_end_project && npm run start

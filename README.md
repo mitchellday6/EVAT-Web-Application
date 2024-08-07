@@ -65,8 +65,9 @@ npm run server
 ```
 This can be used by API developers to test their API through POSTMAN.
 Development should follow the Feature branch git workflow. Important: Never commit directly to main.
-When pulling the latest from GitHub, you may need to run npm install if any packages were added or removed in past commits. If you are experiencing errors unrelated to the code you are writing (or before writing any), try running npm install.
-Contributing
+When pulling the latest from GitHub, you may need to run npm install  if any packages were added or removed in past commits. If you are experiencing errors unrelated to the code you are writing (or before writing any), try running npm install.
+
+##Contributing
 We welcome contributions! Please follow these steps to contribute:
 Fork the repository.
 Create a new branch:
@@ -80,19 +81,21 @@ git commit -m 'Add some feature'
 Push to the branch:
 ```bash
 git push origin feature/your-feature
-``
+```
 Open a pull request.
 
-Code Quality
-Linting
+##Code Quality
+###Linting
 Code quality is enforced by ESLint, which is configured as a custom eslint plugin shared across the entire project in eslintrc.js. Each package/app requires its own .eslintrc.js file.
-Components, component directories, component files, and stories all use PascalCase / UpperCamelCase.
-Variables and functions use camelCase.
-Single quotes for strings.
-Do not use string interpolation for CSS classes.
-Do not use CSS-in-JS, StyledComponents, or Emotion CSS.
-Git Etiquette
-Branching
+
+-Components, component directories, component files, and stories all use PascalCase / UpperCamelCase.
+-Variables and functions use camelCase.
+-Single quotes for strings.
+-Do not use string interpolation for CSS classes.
+-Do not use CSS-in-JS, StyledComponents, or Emotion CSS.
+
+##Git Etiquette
+###Branching
 Branches are used for isolated feature development and should always branch from the source they intend to merge into. This means that a branch created from main must always end up in main.
 ```bash
 Using the example branches of main -> feature-1 -> feature-2…
@@ -100,9 +103,8 @@ Using the example branches of main -> feature-1 -> feature-2…
 ❌ Do not merge feature-2 directly into main, only its parent branch.
 ✅ Do branch feature-2 from main since it should not depend on feature-1.
 Note: If it’s entirely necessary to merge feature-1 before feature-2, ensure that no manual commits are made in feature-2 between the last commit & merge commit to main of feature-1.
-Commit Messages
 ```
-
+##Commit Messages
 There are no hard constraints imposed on commit messaging. Instead, the following guidelines show a best-practice approach to producing consumable commit messaging.
 The preferred format for a commit message looks like this. Note that only the body is required:
 ```bash
@@ -116,25 +118,46 @@ The preferred format for a commit message looks like this. Note that only the bo
 "fix(component): fixed some issue"
 ```
 
-type refers to what kind of commit is being made. Some example values are:
-```bash build``` // related to build processes
-```bash chore``` // small cleanup activities or other pedantry
-```bash ci ```// related to continuous integration activities
-```bash docs``` // documentation work
-```bash feat``` // feature work
-```bash fix``` // bugfixes or hotfixes
-```bash perf``` // performance tuning & optimization
-```bash refactor``` // code refactoring
-```bashrevert``` // reverting previously committed changes
-```bashstyle``` // styling changes
-```bashtest``` // changes to tests
-scope provides context to the commit type, most commonly a TRELLO ticket or some project name.
-body refers to the bulk of the commit message, which can break up into header and footer sections delimited by newlines.
-A header is the body section on the first line of the commit message.
-A footer is entered a full newline separated from the header and may contain any length of UTF-8 content.
-License
+-type refers to what kind of commit is being made. Some example values are:
+--```bash build``` // related to build processes
+--```bash chore``` // small cleanup activities or other pedantry
+--```bash ci ```// related to continuous integration activities
+--```bash docs``` // documentation work
+--```bash feat``` // feature work
+--```bash fix``` // bugfixes or hotfixes
+--```bash perf``` // performance tuning & optimization
+--```bash refactor``` // code refactoring
+--```bashrevert``` // reverting previously committed changes
+--```bashstyle``` // styling changes
+--```bashtest``` // changes to tests
+-**scope** provides context to the commit type, most commonly a TRELLO ticket or some project name.
+-**body** refers to the bulk of the commit message, which can break up into header and footer sections delimited by newlines.
+-A header is the body section on the first line of the commit message.
+-A footer is entered a full newline separated from the header and may contain any length of UTF-8 content.
+
+##APIs
+Here are the APIs that will be used in the EVAT Mobile application:
+###User Management
+-User Registration API
+-User Login API
+-User Profile API
+###Vehicle Management
+-Add Vehicle API
+-View Vehicle Details API
+-Update Vehicle API
+-Delete Vehicle API
+###Charging Station
+-Find Nearest Charging Station API
+-Real-time Charging Station Availability API
+###Maps Integration
+-Google Maps API (for displaying maps and locations)
+-Geolocation API (for getting the user’s current location)
+###Backend
+-MongoDB API (for database operations)
+
+##License
 This project is licensed under the MIT License - see the LICENSE file for details.
-Contact
+##Contact
 For any inquiries, please contact us at s222575318@deakin.edu.au.
 
 ### License

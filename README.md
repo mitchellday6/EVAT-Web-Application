@@ -47,16 +47,20 @@ npm start
 
 Development
 To run the front end project locally, from the root project run:
+```bash
 cd front_end_project && npm run start
 
 To run the back end project locally, from the root project run:
+```bash
 cd back_end_project && npm run start
 
 To launch both the node server and react app, run:
+```bash
 npm run devall
 
 Note: npm run devall isn’t working currently.
 To launch the node server alone, run:
+```bash
 npm run server
 
 This can be used by API developers to test their API through POSTMAN.
@@ -66,15 +70,19 @@ Contributing
 We welcome contributions! Please follow these steps to contribute:
 Fork the repository.
 Create a new branch:
+```bash
 git checkout -b feature/your-feature
 
 Commit your changes:
+```bash
 git commit -m 'Add some feature'
 
 Push to the branch:
+```bash
 git push origin feature/your-feature
 
 Open a pull request.
+
 Code Quality
 Linting
 Code quality is enforced by ESLint, which is configured as a custom eslint plugin shared across the entire project in eslintrc.js. Each package/app requires its own .eslintrc.js file.

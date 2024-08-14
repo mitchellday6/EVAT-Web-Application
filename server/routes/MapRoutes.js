@@ -1,5 +1,8 @@
 const express = require("express");
 const router = express.Router();
+const GoogleAi = require("../scripts/googleAi");
+
+ai = GoogleAi();
 
 
 router.get('/', (req, res, next)=>{

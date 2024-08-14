@@ -5,10 +5,6 @@ const GoogleAi = require("./scripts/googleAi");
 const express = require("express");
 const app = express();
 
-
-// console.log("Indexjs Process object:");
-// console.log(process.env);
-
 //routers
 const MapRoutes = require("./routes/MapRoutes");
 const VehicleRoutes = require("./routes/VehicleRoutes");
@@ -34,9 +30,3 @@ app.get('/', (req, res) => {
 app.listen(webPort,()=>{
     console.log("Server Listening on port: "+webPort);
 })
-
-
-
-let ai = GoogleAi();
-
-ai.fromPrompt("Number of bus stops from location: -27.493017, 153.077346");

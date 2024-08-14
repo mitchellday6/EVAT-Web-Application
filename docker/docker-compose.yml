@@ -1,0 +1,40 @@
+#ctc docker stack
+
+version: '3.5'
+services:
+  mongodb:
+    image: mongo:5.0.4
+    container_name: ${DOMAIN}-evat-mongodb
+    volumes:
+      - ./volumes/${DOMAIN}-mongodb:/DATA/DB
+      - ./volumes/${DOMAIN}-mongodb-config:/DATA/CONFIGDB
+      #- ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_DB_NAME}
+    networks:
+      - local_net
+    ports:
+      - 27017:27017
+    restart: on-failure
+  
+  # create evat server app
+  evatServer:
+    image: evat/evatserver
+    build: ../server
+    container_name: ${CONTAINER_NAME}
+    networks:
+      - local_net
+      - proxy-net
+    ports:
+      - 443:443
+      - 80:80
+    restart: always
+    depends_on:
+      - mongodb
+networks:
+  local_net:
+    name: ${DOMAIN}-net
+  proxy-net:
+    name: proxy-net

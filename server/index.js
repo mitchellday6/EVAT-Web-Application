@@ -1,11 +1,22 @@
+//get all system environment variables
+require('dotenv').config()
+
 const GoogleAi = require("./scripts/googleAi");
 const express = require("express");
+const app = express();
+
+
+// console.log("Indexjs Process object:");
+// console.log(process.env);
 
 //routers
 const MapRoutes = require("./routes/MapRoutes");
 const VehicleRoutes = require("./routes/VehicleRoutes");
 const UserRoutes = require("./routes/UserRoutes");
 const ConfigRoutes = require("./routes/ConfigRoutes");
+
+//global vars
+const webPort = 3000;
 // Middleware to parse JSON bodies
 app.use(express.json());
 
@@ -20,7 +31,10 @@ app.get('/', (req, res) => {
 })
   
 
-app.listen(3000)
+app.listen(webPort,()=>{
+    console.log("Server Listening on port: "+webPort);
+})
+
 
 
 let ai = GoogleAi();

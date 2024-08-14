@@ -3,14 +3,16 @@ const express = require("express");
 
 //routers
 const MapRoutes = require("./routes/MapRoutes");
-const AuthRoutes = require("./routes/AuthRoutes");
+const VehicleRoutes = require("./routes/VehicleRoutes");
+const UserRoutes = require("./routes/UserRoutes");
 const ConfigRoutes = require("./routes/ConfigRoutes");
 // Middleware to parse JSON bodies
 app.use(express.json());
 
-app.use('/auth', AuthRoutes);
-app.use('/api/mapping', MapRoutes);
+app.use('/user', UserRoutes);
 app.use('/api/config', ConfigRoutes);
+app.use('/api/vehicle', VehicleRoutes);
+app.use('/api/mapping', MapRoutes);
 
 //interface for reactjs static files
 app.get('/', (req, res) => {

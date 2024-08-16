@@ -7,7 +7,7 @@ gMapsClient = new Client({})
 console.log("Check AI Key", process.env.GOOGLE_API_KEY);
 // console.log(process.env);
 
-const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
+const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY2);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 
@@ -30,6 +30,24 @@ function GoogleAi() {
                 console.log(e.response.data.error_message);
             });
     }
+    
+    async function findItemsAroundPoint(type, location, radius) {
+        try {
+          const response = await client.placesNearby({
+            params: {
+              location, // Replace with your desired location (latitude, longitude)
+              radius, // Search radius in meters
+              type: itemType, // Places type for EV chargers
+              key: process.env.GOOGLE_API_KEY // Replace with your API key
+            }
+          });
+      
+          const evChargers = response.data.results;
+          console.log("EV Chargers found:", evChargers);
+        } catch (error) {
+          console.error("Error fetching EV chargers:", error);
+        }
+      }
 
 
     async function generateOutput(input) {
@@ -40,14 +58,13 @@ function GoogleAi() {
         }
         try {
             result = await model.generateContent(input);
+            console.log(result)
             return response = result.response
         } catch (error) {
             console.log("AI Generate content error:")
             console.log(JSON.stringify(error))
             return error;
         }
-        
-
         
     }
 

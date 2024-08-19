@@ -1,3 +1,7 @@
+HEAD
+# EVAT-Web-Application
+EVAT is a mobile application designed to streamline vehicle management. This repository contains the DevOps codebase for the EVAT web application.
+=======
 
 # EVAT Mobile Application
 
@@ -225,3 +229,4 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+ 768657f (Readme.md)

@@ -19,7 +19,7 @@ async function getData(method, url, commentString, data) {
         }
         //convert to json
         const jsonRes = await res.json();
-        console.log(jsonRes)
+        console.log(JSON.stringify(jsonRes))
     } catch (error) {
 
         switch(error.cause.code){
@@ -37,3 +37,5 @@ async function getData(method, url, commentString, data) {
 getData("GET", "http://localhost:3000/api/config", "Config API", {})
 
 getData("GET", "http://localhost:3000/api/mapping", "Mapping with prompt", { prompt: "Get me some maps" });
+
+getData("GET", "http://localhost:3000/api/vehicle/getall", "Vehicle get list", {});

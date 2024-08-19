@@ -30,6 +30,6 @@ app.get('*', (req, res) => {
 });
 
 
-app.listen(webPort, () => {
-    console.log("Server Listening on port: " + webPort);
+app.listen(PORT, () => {
+    console.log("Server Listening on port: " + PORT);
 })

@@ -1,5 +1,5 @@
 
-const knownVehicles = [
+module.exports = vehicleList = [
     {
       brand: "Tesla",
       model: "Model S",

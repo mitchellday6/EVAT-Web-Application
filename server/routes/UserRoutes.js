@@ -17,6 +17,11 @@ router.post('/', (req, res, next)=>{
     res.json({ message: 'Mapping API root' });
 })
 
+//used to find information from a sentence.
+router.post('/search', (req, res, next)=>{
+    res.json({ message: 'Mapping API root' });
+})
+
 
 module.exports = router;
 

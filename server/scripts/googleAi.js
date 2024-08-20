@@ -1,5 +1,6 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const { Client } = require("@googlemaps/google-maps-services-js");
+const speech = require("@google-cloud/speech");
 
 
 gMapsClient = new Client({})

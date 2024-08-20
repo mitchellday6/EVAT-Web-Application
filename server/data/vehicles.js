@@ -1,4 +1,6 @@
 
+//a list of EV vehicles and relevant information
+
 module.exports = vehicleList = [
     {
       brand: "Tesla",

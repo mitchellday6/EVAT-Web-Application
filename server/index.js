@@ -5,7 +5,7 @@ const express = require("express");
 const app = express();
 
 //routers
-const MapRoutes = require("./routes/MapRoutes");
+const NavRoutes = require("./routes/NavRoutes");
 const VehicleRoutes = require("./routes/VehicleRoutes");
 const UserRoutes = require("./routes/UserRoutes");
 const ConfigRoutes = require("./routes/ConfigRoutes");
@@ -20,7 +20,7 @@ app.use(express.json());
 app.use('/user', UserRoutes);
 app.use('/api/config', ConfigRoutes);
 app.use('/api/vehicle', VehicleRoutes);
-app.use('/api/mapping', MapRoutes);
+app.use('/api/navigation', NavRoutes);
 
 
 app.use(express.static('client/build'));

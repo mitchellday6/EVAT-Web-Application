@@ -24,6 +24,7 @@ router.get('/getall', (req, res, next)=>{
 //gets list of vehicles that match
 router.get('/getbyfeature', (req, res, next)=>{
     //create functionality for getting vehicle list by features
+    //such as chargerType = "Type 2"
     let data = {}
     
     res.json({ message: 'Get Vehicles by feature', data});

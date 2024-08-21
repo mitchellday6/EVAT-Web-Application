@@ -49,7 +49,7 @@ Endpoints related to trip planning, route navigation, and finding EV stations.
     - `lat`: Latitude of the location.
     - `lon`: Longitude of the location.
     - `radius`: Search radius (in km).
-    - `chargerType`: Optional filter for charger type (`fast`, `standard`).
+    - `chargerType`: Optional filter for charger type (`Type 2`, `CHAdeMO`).
 
 - **Example**: `/navigation/ev-stations?lat=34.052235&lon=-118.243683&radius=10&chargerType=fast`
 
@@ -57,12 +57,12 @@ Endpoints related to trip planning, route navigation, and finding EV stations.
 
     ```json
     [
-      { "stationId": "123", "lat": 34.061235, "lon": -118.241683, "chargerType": "fast", "available": true },
-      { "stationId": "456", "lat": 34.052235, "lon": -118.243683, "chargerType": "standard", "available": false }
+      { "stationId": "123", "lat": 34.061235, "lon": -118.241683, "chargerType": "Type 2", "available": true },
+      { "stationId": "456", "lat": 34.052235, "lon": -118.243683, "chargerType": "Type 2", "available": false }
     ]
     ```
 
-#### **POST** `/navigation/voice-control`
+#### **POST** `/navigation/vtt`
 - **Description**: Convert voice input into actionable trip or EV station queries.
 - **Required Data**:
 

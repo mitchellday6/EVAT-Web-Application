@@ -1,38 +1,29 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-
+import ProgressBar from './components/progress';
+import ProgressBar2 from './components/progress2';
+import StationCountSlider from './components/StationCountSlider';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header"> 
+      <header className="App-header">
         <div style={{width: 393, height: 1871, position: 'relative', background: '#CFF9FF'}}>
   <div style={{width: 24, height: 24, left: 92, top: 485, position: 'absolute'}} />
   <div style={{width: 393, height: 57, left: 0, top: 0, position: 'absolute', background: '#2AB4DF'}} />
   <div style={{width: 146, height: 18, left: 124, top: 19, position: 'absolute', textAlign: 'center', color: 'white', fontSize: 15, fontfamily:'sans-serif', fontWeight: '900', wordWrap: 'break-word'}}>Map Filter</div>
   <button style={{borderRadius:50,width: 65, height: 24, left: 315, top: 16, position: 'absolute', textAlign: 'center', color: '#2AB4DF', fontSize: 15, fontFamily: 'sans-serif', fontWeight: '600', wordWrap: 'break-word'}}>Reset</button>
-  <div style={{width: 281, height: 33, left: 46, top: 95, position: 'absolute', background: '#72D5F4', borderRadius: 90}} />
-  <div style={{width: 281, height: 33, left: 46, top: 234, position: 'absolute', background: '#72D5F4', borderRadius: 90}} />
-  <div style={{width: 46, height: 29, left: 48, top: 97, position: 'absolute', background: 'white', borderRadius: 90}} />
-  <div style={{width: 46, height: 29, left: 48, top: 236, position: 'absolute', background: 'white', borderRadius: 90}} />
-  <div style={{width: 45, height: 27, left: 335, top: 99, position: 'absolute', background: 'rgba(0, 0, 0, 0.53)', borderRadius: 6}} />
-  <div style={{width: 45, height: 27, left: 335, top: 237, position: 'absolute', background: 'rgba(0, 0, 0, 0.53)', borderRadius: 6}} />
-  <div style={{width: 35, height: 15, left: 339, top: 104, position: 'absolute', textAlign: 'center', color: 'white', fontSize: 15, fontfamily:'sans-serif', fontWeight: '600', wordWrap: 'break-word'}}>0Km</div>
-  <div style={{width: 35, height: 15, left: 339, top: 242, position: 'absolute', textAlign: 'center', color: 'white', fontSize: 15, fontfamily:'sans-serif', fontWeight: '600', wordWrap: 'break-word'}}>0KW</div>
+  <ProgressBar/>
+  <ProgressBar2/>
   <div style={{width: 191, height: 20, left: 101, top: 77, position: 'absolute', textAlign: 'center', color: 'rgba(0, 0, 0, 0.53)', fontSize: 10, fontfamily:'sans-serif', fontWeight: '600', wordWrap: 'break-word'}}>Charging locations close to you... </div>
   <div style={{width: 191, height: 20, left: 100, top: 205, position: 'absolute', textAlign: 'center', color: 'rgba(0, 0, 0, 0.53)', fontSize: 10, fontfamily:'sans-serif', fontWeight: '600', wordWrap: 'break-word'}}>0KW  -  350+KW</div>
   <div style={{width: 44, height: 20, left: 40, top: 270, position: 'absolute', textAlign: 'center', color: 'rgba(0, 0, 0, 0.53)', fontSize: 10, fontfamily:'sans-serif', fontWeight: '600', wordWrap: 'break-word'}}>Min:0KW  </div>
   <div style={{width: 64, height: 20, left: 295, top: 270, position: 'absolute', textAlign: 'center', color: 'rgba(0, 0, 0, 0.53)', fontSize: 10, fontfamily:'sans-serif', fontWeight: '600', wordWrap: 'break-word'}}>Max:350+KW  </div>
   <div style={{width: 191, height: 20, left: 100, top: 176, position: 'absolute', textAlign: 'center', color: 'rgba(0, 0, 0, 0.79)', fontSize: 16, fontfamily:'sans-serif', fontWeight: '700', wordWrap: 'break-word'}}>Kilowatt Range</div>
   <div style={{width: 191, height: 20, left: 100, top: 356, position: 'absolute', textAlign: 'center', color: 'rgba(0, 0, 0, 0.79)', fontSize: 16, fontfamily:'sans-serif', fontWeight: '700', wordWrap: 'break-word'}}>Vehicle & Plugs</div>
-  <div style={{width: 191, height: 20, left: 100, top: 629, position: 'absolute', textAlign: 'center', color: 'rgba(0, 0, 0, 0.79)', fontSize: 16, fontfamily:'sans-serif', fontWeight: '700', wordWrap: 'break-word'}}>Station Count Custom</div>
+  <div style={{width: 120, height: 20, left: 10, top: 630, position: 'absolute', textAlign: 'center', color: 'rgba(0, 0, 0, 0.79)', fontSize: 16, fontfamily:'sans-serif', fontWeight: '700', wordWrap: 'break-word'}}>Station Count Custom</div>
+  <StationCountSlider/>
   <div style={{width: 191, height: 20, left: 100, top: 817, position: 'absolute', textAlign: 'center', color: 'rgba(0, 0, 0, 0.79)', fontSize: 16, fontfamily:'sans-serif', fontWeight: '700', wordWrap: 'break-word'}}>Amenities</div>
-  <div style={{width: 81, height: 20, left: 15, top: 691, position: 'absolute', textAlign: 'center', color: '#2977D3', fontSize: 16, fontfamily:'sans-serif', fontWeight: '700', wordWrap: 'break-word'}}>Count:</div>
-  <div style={{width: 81, height: 20, left: 161, top: 691, position: 'absolute', textAlign: 'center', color: '#2977D3', fontSize: 20, fontfamily:'sans-serif', fontWeight: '500', wordWrap: 'break-word'}}>6+</div>
-  <div style={{width: 81, height: 20, left: 160, top: 654, position: 'absolute', textAlign: 'center', color: 'black', fontSize: 14, fontfamily:'sans-serif', fontWeight: '500', wordWrap: 'break-word'}}>4+</div>
-  <div style={{width: 81, height: 20, left: 160, top: 728, position: 'absolute', textAlign: 'center', color: 'black', fontSize: 14, fontfamily:'sans-serif', fontWeight: '500', wordWrap: 'break-word'}}>2+</div>
-  <div style={{left: 189, top: 753, position: 'absolute', textAlign: 'center', color: 'rgba(0, 0, 0, 0.36)', fontSize: 12, fontfamily:'sans-serif', fontWeight: '500', wordWrap: 'break-word'}}>Any</div>
   <div style={{width: 393.01, height: 0, left: 0, top: 152, position: 'absolute', border: '1px rgba(0, 0, 0, 0.16) solid'}}></div>
   <div style={{width: 393.01, height: 0, left: 0, top: 332.07, position: 'absolute', border: '1px rgba(0, 0, 0, 0.16) solid'}}></div>
   <div style={{width: 393.01, height: 0, left: 0, top: 615.07, position: 'absolute', border: '1px rgba(0, 0, 0, 0.16) solid'}}></div>
@@ -75,8 +66,6 @@ function App() {
   <div style={{width: 9, height: 9, left: 298, top: 985, position: 'absolute', background: 'white', borderRadius: 9999}} />
   <div style={{width: 9, height: 9, left: 310, top: 985, position: 'absolute', background: 'white', borderRadius: 9999}} />
   <div style={{width: 31, height: 29, left: 100, top: 483, position: 'absolute', background: '#2977D3'}}></div>
-  <img style={{width: 29, height: 25, left: 56, top: 239, position: 'absolute'}} src="https://via.placeholder.com/29x25" />
-  <img style={{width: 29, height: 25, left: 56, top: 98, position: 'absolute'}} src="https://via.placeholder.com/29x25" />
   <div style={{width: 74, height: 0, left: 389, top: 162, position: 'absolute', transform: 'rotate(90deg)', transformOrigin: '0 0', border: '2px rgba(0, 0, 0, 0.53) solid'}}></div>
   <img style={{width: 34, height: 31, left: 36, top: 855, position: 'absolute'}} src="https://via.placeholder.com/34x31" />
   <img style={{width: 28, height: 23, left: 159, top: 859, position: 'absolute'}} src="https://via.placeholder.com/28x23" />

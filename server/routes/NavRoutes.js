@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const GoogleAi = require("../scripts/googleAi");
+const EVAT_AI = require("../scripts/evat_ai");
 
-ai = GoogleAi();
+const ai = EVAT_AI();
 
 
 router.get('/', async (req, res, next) => {
@@ -20,7 +20,7 @@ router.get('/', async (req, res, next) => {
 router.post('/vtt', (req, res, next)=>{
     const data = "";
     //functionality for converting a voice blob to text.
-    res.json({ message: 'Convert voice to text', data:  });
+    res.json({ message: 'Convert voice to text', data});
 })
 
 //gets service/s using the origin and destination of trip

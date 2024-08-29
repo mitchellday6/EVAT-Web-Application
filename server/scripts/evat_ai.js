@@ -1,17 +1,20 @@
 // Import necessary libraries
-const { GoogleAuth } = require('@google/generative-ai');
+const fs = require("fs");
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 const { Client } = require("@googlemaps/google-maps-services-js");
-const speech = require('@google-cloud/speech');
+const speech = require("@google-cloud/speech");
 
 // Initialize Google AI clients
 const mapsClient = new Client({});
 const speechClient = new speech.SpeechClient();
-const generativeAiClient = new GoogleAuth();
+console.log(process.env.GOOGLE_API_KEY)
+console.log(process.env.GOOGLE_API_KEY_MITCHELL)
+const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY_MITCHELL); // Replace with your Google API Key
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-const AIFactory = () => {
-  const apiKey = 'YOUR_GOOGLE_MAPS_API_KEY';
-  const aiKey = 'YOUR_GOOGLE_AI_API_KEY';
-  
+const EVAT_AI = () => {
+  const apiKey = process.env.GOOGLE_MAPS_API_KEY; // Replace with your Google Maps API Key
+
   /**
    * Extract locations from a natural language sentence.
    * @param {string} sentence - The sentence to extract locations from.
@@ -19,20 +22,19 @@ const AIFactory = () => {
    * @description This function uses Google Generative AI to extract locations and route information from a sentence.
    */
   const extractLocations = async (sentence) => {
-    const prompt = `Extract locations and route-related information from the following sentence: "${sentence}"`;
-    const aiResponse = await generativeAiClient.generateText({
-      model: 'text-bison-001',
-      prompt,
-      temperature: 0.7,
-    });
 
-    const responseText = aiResponse.data.choices[0].text;
-    const locations = responseText.match(/(?:from\s)(\w+)(?:\sto\s)(\w+)/i);
+    const prompt = `Extract locations and route-related information inlcuding stops from the following sentence "${sentence}". 
+    Get centre location lat and lon values and return using JSON schema:
+    {origin: {name: 'str', lat, lon}, stops: [{name: 'str', lat: float, lon: float, amenityType}], destination: {name: 'string', lat, lon}}
+    Please return only valid JSON without any additional explanation or text.`
+    console.log("Prompt: "+prompt)
     
-    return {
-      start: locations[1],
-      destination: locations[2],
-    };
+    const aiResponse = await model.generateContent([prompt]);
+    const responseText = aiResponse.response.text().replace(/'''|```|json/g, '').trim();
+    // const locations = text.match(/(?:from\s)(\w+)(?:\sto\s)(\w+)/i);
+    const locations = JSON.parse(responseText);
+
+    return locations;
   };
 
   /**
@@ -43,19 +45,20 @@ const AIFactory = () => {
    */
   const createRouteFromSentence = async (sentence) => {
     const locations = await extractLocations(sentence);
-    
+    console.log("Create route from sentence")
+    console.log(locations)
     const route = await mapsClient.directions({
       params: {
-        origin: locations.start,
+        origin: locations.origin,
         destination: locations.destination,
         key: apiKey,
       },
     });
 
     return {
-      start: locations.start,
+      origin: locations.origin,
       destination: locations.destination,
-      route: route.data.routes[0].legs[0].steps.map(step => step.html_instructions),
+      route: route.data.routes[0].legs[0].steps.map((step) => step.html_instructions),
     };
   };
 
@@ -77,7 +80,7 @@ const AIFactory = () => {
       },
     });
 
-    return nearbyPlaces.data.results.map(place => ({
+    return nearbyPlaces.data.results.map((place) => ({
       name: place.name,
       distance: place.vicinity,
     }));
@@ -95,12 +98,12 @@ const AIFactory = () => {
       params: {
         location: location,
         radius: distance,
-        type: 'charging_station',
+        type: "charging_station",
         key: apiKey,
       },
     });
 
-    return evChargers.data.results.map(charger => ({
+    return evChargers.data.results.map((charger) => ({
       name: charger.name,
       distance: charger.vicinity,
     }));
@@ -114,20 +117,22 @@ const AIFactory = () => {
    */
   const vtt = async (audioBuffer) => {
     const audio = {
-      content: audioBuffer.toString('base64'), // Pass audio blob directly as a buffer
+      content: audioBuffer.toString("base64"), // Pass audio blob directly as a buffer
     };
 
     const request = {
       audio,
       config: {
-        encoding: 'LINEAR16',
+        encoding: "LINEAR16",
         sampleRateHertz: 16000,
-        languageCode: 'en-US',
+        languageCode: "en-US",
       },
     };
 
     const [response] = await speechClient.recognize(request);
-    const transcription = response.results.map(result => result.alternatives[0].transcript).join('\n');
+    const transcription = response.results
+      .map((result) => result.alternatives[0].transcript)
+      .join("\n");
     return transcription;
   };
 
@@ -139,7 +144,7 @@ const AIFactory = () => {
    */
   const processVoiceInput = async (voiceText) => {
     console.log(`Received voice input: ${voiceText}`);
-    
+
     if (voiceText.includes("route")) {
       return await createRouteFromSentence(voiceText);
     } else if (voiceText.includes("restaurant")) {
@@ -151,33 +156,46 @@ const AIFactory = () => {
     }
   };
 
+  /**
+   * Generate content using Google Generative AI.
+   * @param {string} prompt - The text prompt to generate content (e.g., "Does this look store-bought or homemade?").
+   * @param {string} imagePath - Path to the image file to be analyzed (e.g., "cookie.png").
+   * @returns {string} The response from the generative AI model.
+   * @description This function uses Google Generative AI to generate content based on a prompt and image.
+   */
+  const generateContentFromPrompt = async (prompt, imagePath) => {
+    const model = await genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+    const image = {
+      inlineData: {
+        data: Buffer.from(fs.readFileSync(imagePath)).toString("base64"),
+        mimeType: "image/png",
+      },
+    };
+
+    const result = await model.generateContent({
+      prompt: [prompt, image],
+    });
+
+    return result.responses[0].text; // Returning the result from the AI model
+  };
+
   return {
     createRouteFromSentence,
     findPlacesNearby,
     getEVChargers,
     vtt,
     processVoiceInput,
+    generateContentFromPrompt, // Expose the new method for generating content from prompt and image
   };
 };
 
-// Example usage (you would need actual coordinates and audio files for this to work in practice)
-// const ai = AIFactory();
+module.exports = EVAT_AI
 
-// Simulate route creation from a sentence
-// ai.createRouteFromSentence("Plan a trip from Sydney to Melbourne").then(console.log);
+// // Example usage (you would need actual coordinates and audio files for this to work in practice)
+// const ai = EVAT_AI();
 
-// Simulate finding nearby places with default distance
-// ai.findPlacesNearby({ lat: -33.8675, lon: 151.2070 }, "restaurant").then(console.log);
-
-// Simulate finding nearby places with custom distance
-// ai.findPlacesNearby({ lat: -33.8675, lon: 151.2070 }, "restaurant", 3000).then(console.log);
-
-// Simulate getting EV chargers
-// ai.getEVChargers({ lat: -33.8675, lon: 151.2070 }).then(console.log);
-
-// Simulate voice-to-text translation (replace 'audioBuffer' with the audio blob data received from Express)
-// const audioBuffer = Buffer.from(''); // This would be replaced with actual audio blob data
-// ai.vtt(audioBuffer).then(transcription => {
-//   console.log("Transcription: ", transcription);
-//   ai.processVoiceInput(transcription).then(console.log);
-// });
+// // Simulate generating content from a prompt and image
+// ai.generateContentFromPrompt("Does this look store-bought or homemade?", "cookie.png")
+//   .then(console.log)
+//   .catch(console.error);

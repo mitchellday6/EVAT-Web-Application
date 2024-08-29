@@ -23,10 +23,12 @@ app.use('/api/vehicle', VehicleRoutes);
 app.use('/api/navigation', NavRoutes);
 
 
-app.use(express.static('client/build'));
+app.use(express.static('../build'));
 
 app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+    const url = path.resolve(__dirname, '..', 'build', 'index.html');
+    console.log(url)
+    res.sendFile(path.resolve(__dirname, '..', 'build',));
 });
 
 

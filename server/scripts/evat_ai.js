@@ -7,8 +7,6 @@ const speech = require("@google-cloud/speech");
 // Initialize Google AI clients
 const mapsClient = new Client({});
 const speechClient = new speech.SpeechClient();
-console.log(process.env.GOOGLE_API_KEY)
-console.log(process.env.GOOGLE_API_KEY_MITCHELL)
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY_MITCHELL); // Replace with your Google API Key
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
@@ -25,15 +23,14 @@ const EVAT_AI = () => {
 
     const prompt = `Extract locations and route-related information inlcuding stops from the following sentence "${sentence}". 
     Get centre location lat and lon values and return using JSON schema:
-    {origin: {name: 'str', lat, lon}, stops: [{name: 'str', lat: float, lon: float, amenityType}], destination: {name: 'string', lat, lon}}
+    {origin: {name: 'str', lat, lng}, stops: [{name: 'str', lat: float, lng: float, amenityType}], destination: {name: 'string', lat, lng}}
     Please return only valid JSON without any additional explanation or text.`
-    console.log("Prompt: "+prompt)
+    // console.log("Prompt: "+prompt)
     
     const aiResponse = await model.generateContent([prompt]);
     const responseText = aiResponse.response.text().replace(/'''|```|json/g, '').trim();
     // const locations = text.match(/(?:from\s)(\w+)(?:\sto\s)(\w+)/i);
     const locations = JSON.parse(responseText);
-
     return locations;
   };
 
@@ -45,8 +42,6 @@ const EVAT_AI = () => {
    */
   const createRouteFromSentence = async (sentence) => {
     const locations = await extractLocations(sentence);
-    console.log("Create route from sentence")
-    console.log(locations)
     const route = await mapsClient.directions({
       params: {
         origin: locations.origin,
@@ -58,7 +53,8 @@ const EVAT_AI = () => {
     return {
       origin: locations.origin,
       destination: locations.destination,
-      route: route.data.routes[0].legs[0].steps.map((step) => step.html_instructions),
+      route: route.data,
+      // route: route.data.routes[0].legs[0].steps.map((step) => step.html_instructions),
     };
   };
 
@@ -79,11 +75,12 @@ const EVAT_AI = () => {
         key: apiKey,
       },
     });
-
-    return nearbyPlaces.data.results.map((place) => ({
-      name: place.name,
-      distance: place.vicinity,
-    }));
+    return nearbyPlaces.data.results;
+    //BELOW RETURNS FILTERED DATA
+    // return nearbyPlaces.data.results.map((place) => ({
+    //   name: place.name,
+    //   distance: place.vicinity,
+    // }));
   };
 
   /**
@@ -98,15 +95,18 @@ const EVAT_AI = () => {
       params: {
         location: location,
         radius: distance,
-        type: "charging_station",
+        type: "ev chargers",
+        keyword: "EV charging station",
         key: apiKey,
       },
     });
 
-    return evChargers.data.results.map((charger) => ({
-      name: charger.name,
-      distance: charger.vicinity,
-    }));
+    return evChargers.data.results;
+    //BELOW RETURNS FILTERED DATA
+    // return evChargers.data.results.map((charger) => ({
+    //   name: charger.name,
+    //   distance: charger.vicinity,
+    // }));
   };
 
   /**

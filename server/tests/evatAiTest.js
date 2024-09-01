@@ -1,6 +1,5 @@
 require('dotenv').config()
 const EVAT_AI = require("../scripts/evat_ai");
-const multer = require("multer");
 const fs = require('fs');
 const path = require('path');
 
@@ -8,23 +7,29 @@ const path = require('path');
 const ai = EVAT_AI();
 
 // Simulate route creation from a sentence
-ai.createRouteFromSentence("Plan a trip from Sydney to Melbourne and with two stops for charging").then(console.log);
+// ai.createRouteFromSentence("Plan a trip from 94 kingsbury st norman park to cannon hill anglican college").then((data)=>{
+//   console.log("Test output:")
+//   console.log(JSON.stringify(data))
+// });
 
 // Simulate finding nearby places with default distance
-// ai.findPlacesNearby({ lat: -33.8675, lon: 151.2070 }, "restaurant").then(console.log);
+// ai.findPlacesNearby({ lat: -33.8675, lng: 151.2070 }, "restaurant").then(console.log);
 
 // Simulate finding nearby places with custom distance
-// ai.findPlacesNearby({ lat: -33.8675, lon: 151.2070 }, "restaurant", 3000).then(console.log);
+// ai.findPlacesNearby({ lat: -33.8675, lng: 151.2070 }, "restaurant", 3000).then(console.log);
 
 // Simulate getting EV chargers
-// ai.getEVChargers({ lat: -33.8675, lon: 151.2070 }).then(console.log);
+// ai.getEVChargers({ lat: -33.8675, lng: 151.2070 }, 5000).then((data)=>{
+//   console.log(data)
+// });
 
 
 // Test function to run locally
 async function testVoiceToText() {
   try {
     // Read the audio file into a buffer
-    const audioFilePath = path.join(__dirname, './testData/normanpark_ev.m4a'); // Replace with your actual audio file path
+    console.log(path.join(__dirname, './testData/normanpark_ev.m4a'))
+    const audioFilePath = path.join(__dirname, './testData/normanpark_ev.mp3'); // Replace with your actual audio file path
     const audioBuffer = fs.readFileSync(audioFilePath);
 
     // Call the vtt function to transcribe the audio file
@@ -42,4 +47,4 @@ async function testVoiceToText() {
 }
 
 // Run the test
-// testVoiceToText();
+testVoiceToText();

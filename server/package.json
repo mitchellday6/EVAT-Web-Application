@@ -4,7 +4,7 @@
   "description": "Server for the EVAT system",
   "main": "index.js",
   "scripts": {
-    "aiTest": "node ./tests/googleAiTest",
+    "aiTest": "node ./tests/evatAiTest",
     "start": "node index.js"
   },
   "author": "mitchell day",

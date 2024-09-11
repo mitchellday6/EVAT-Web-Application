@@ -35,9 +35,5 @@ async function getData(method, url, commentString, data) {
 }
 
 
-//config api tests
-getData("GET", "http://localhost:3001/api/config", "Config API", {})
 
-getData("GET", "http://localhost:3001/api/navigation", "Navigation with prompt", { prompt: "Get me some maps" });
-
-getData("GET", "http://localhost:3001/api/vehicle/getall", "Vehicle get list", {});
+getData("GET", "http://localhost:3001/api/navigation/getchargers", "Get Ev Chargers API Test", {lat: -38.156041, lon: 144.361325, chargerType: "Charger 1"});

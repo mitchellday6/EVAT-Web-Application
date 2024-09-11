@@ -34,6 +34,8 @@ const EVAT_AI = () => {
     return locations;
   };
 
+
+
   /**
    * Create a route using Google Maps API from a natural language sentence.
    * @param {string} sentence - The sentence describing the route (e.g., "Plan a trip from Sydney to Melbourne").
@@ -83,6 +85,8 @@ const EVAT_AI = () => {
     // }));
   };
 
+
+
   /**
    * Find nearby EV chargers using Google Places API.
    * @param {Object} location - An object containing latitude and longitude (e.g., { lat: -33.8675, lon: 151.2070 }).
@@ -109,31 +113,53 @@ const EVAT_AI = () => {
     // }));
   };
 
-  /**
-   * Convert voice input to text using Google Speech-to-Text API.
-   * @param {Buffer} audioBuffer - Audio data received from the client (Express endpoint).
-   * @returns {string} Transcribed text from the audio.
-   * @description This function converts audio blob data received from an Express endpoint into text.
-   */
-  const vtt = async (audioBuffer) => {
-    const audio = {
-      content: audioBuffer.toString("base64"), // Pass audio blob directly as a buffer
-    };
+  
+  
+  //OLD VTT USING SPEECH LIBRARY
+  // /**
+  //  * Convert voice input to text using Google Speech-to-Text API.
+  //  * @param {Buffer} audioBuffer - Audio data received from the client (Express endpoint).
+  //  * @returns {string} Transcribed text from the audio.
+  //  * @description This function converts audio blob data received from an Express endpoint into text.
+  //  */
+  // const vtt = async (audioBuffer) => {
+  //   const audio = {
+  //     content: audioBuffer.toString("base64"), // Pass audio blob directly as a buffer
+  //   };
 
-    const request = {
-      audio,
-      config: {
-        encoding: "LINEAR16",
-        sampleRateHertz: 16000,
-        languageCode: "en-US",
-      },
-    };
+  //   const request = {
+  //     audio,
+  //     config: {
+  //       encoding: "LINEAR16",
+  //       sampleRateHertz: 16000,
+  //       languageCode: "en-US",
+  //     },
+  //   };
 
-    const [response] = await speechClient.recognize(request);
-    const transcription = response.results
-      .map((result) => result.alternatives[0].transcript)
-      .join("\n");
-    return transcription;
+  //   const [response] = await speechClient.recognize(request);
+  //   const transcription = response.results
+  //     .map((result) => result.alternatives[0].transcript)
+  //     .join("\n");
+  //   return transcription;
+  // };
+
+
+
+  const vtt = async (audioBlob) => {
+ 
+    const audioString = audioBlob.toString('base64');
+    const prompt = `Please transcibe this recording:`
+
+    const file = {
+      mime_type: "audio/wav",
+      data: audioString
+    }
+    
+    const aiResponse = await model.generateContent([prompt, file]);
+    const responseText = aiResponse.response.text().replace(/'''|```|json/g, '').trim();
+    // const locations = text.match(/(?:from\s)(\w+)(?:\sto\s)(\w+)/i);
+    const locations = JSON.parse(responseText);
+    return locations;
   };
 
   /**

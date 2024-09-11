@@ -7,10 +7,10 @@ const path = require('path');
 const ai = EVAT_AI();
 
 // Simulate route creation from a sentence
-// ai.createRouteFromSentence("Plan a trip from 94 kingsbury st norman park to cannon hill anglican college").then((data)=>{
-//   console.log("Test output:")
-//   console.log(JSON.stringify(data))
-// });
+ai.createRouteFromSentence("Plan a trip from 94 kingsbury st norman park to cannon hill anglican college").then((data)=>{
+  console.log("Test output:")
+  console.log(JSON.stringify(data))
+});
 
 // Simulate finding nearby places with default distance
 // ai.findPlacesNearby({ lat: -33.8675, lng: 151.2070 }, "restaurant").then(console.log);
@@ -29,8 +29,10 @@ async function testVoiceToText() {
   try {
     // Read the audio file into a buffer
     console.log(path.join(__dirname, './testData/normanpark_ev.m4a'))
-    const audioFilePath = path.join(__dirname, './testData/normanpark_ev.mp3'); // Replace with your actual audio file path
+    const audioFilePath = path.join(__dirname, './testData/normanpark_ev.wav'); // Replace with your actual audio file path
     const audioBuffer = fs.readFileSync(audioFilePath);
+
+    console.log(audioBuffer)
 
     // Call the vtt function to transcribe the audio file
     const transcription = await ai.vtt(audioBuffer);
@@ -47,4 +49,4 @@ async function testVoiceToText() {
 }
 
 // Run the test
-testVoiceToText();
+// testVoiceToText();

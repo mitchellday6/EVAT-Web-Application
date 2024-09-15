@@ -4,7 +4,10 @@ WORKDIR /app
 
 COPY package*json ./
 
-RUN npm install --production
+RUN apt-get update \\
+    && apt-get install --yes python3 \\
+    && pip install overpy sys np lru_cache
+RUN npm install --production 
 
 COPY . .
 

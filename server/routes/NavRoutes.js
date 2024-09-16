@@ -20,7 +20,7 @@ router.get('/', async (req, res, next) => {
 router.post('/vtt', (req, res, next)=>{
     const data = "";
     //functionality for converting a voice blob to text.
-    res.json({ message: 'Convert voice to text', data:  });
+    res.json({ message: 'Convert voice to text', data: data});
 })
 
 //gets service/s using the origin and destination of trip

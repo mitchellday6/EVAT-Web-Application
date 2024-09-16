@@ -1,18 +1,30 @@
-FROM node:22-alpine
+FROM node:20-buster
 
+# Set the working directory
 WORKDIR /app
 
-COPY package*json ./
+# Install Python and pip
+RUN apt-get update && apt-get install -y python3 python3-pip \
+    && rm -rf /var/lib/apt/lists/*  # Clean up apt cache to reduce image size
 
-RUN apt-get update \\
-    && apt-get install --yes python3 \\
-    && pip install overpy sys np lru_cache
-RUN npm install --production 
+# Copy package.json and package-lock.json
+COPY package*.json ./
 
+# Install Node.js dependencies
+
+RUN npm install --production
+
+# Install Python dependencies
+RUN pip3 install overpy numpy lru_cache \
+    && pip3 install -U scikit-learn \
+    && python3 -m pip install pymongo \
+    && rm -rf /root/.cache/pip  # Clean up pip cache to reduce image size
+
+# Copy the rest of the application code
 COPY . .
 
-EXPOSE 80
-EXPOSE 8080
-EXPOSE 443
+# Expose the port your application will run on
+EXPOSE 3001
 
+# Start the application
 CMD ["npm", "start"]

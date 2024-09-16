@@ -36,11 +36,11 @@ router.get('/getservice', async (req, res, next) => {
 //gets service/s using the origin and destination of trip
 router.get('/getchargers', async (req, res, next) => {
 
-    const getChargersUrl = path.resolve(__dirname, '..', 'scripts', 'getchargers.py')
+    // const getChargersUrl = path.resolve(__dirname, '..', 'scripts','python','getnearestcharger.py')
     const { lat, lon, chargerType } = req.query;
     
-    //load local JSON for API testing
-    let result = await LocalJSON.load("./tests/testData/test_amenitites_local.json");
+    // //load local JSON for API testing
+    let result = await LocalJSON.load("./tests/testData/testData.json");
     if(result.error) return result;
 
     // // functionality to get charging stations from python script

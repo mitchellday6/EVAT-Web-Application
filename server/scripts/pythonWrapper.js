@@ -8,9 +8,7 @@ function Python(){
 
     async function callScript(scriptName, arg1, arg2, arg3){
         let result = '';
-        console.log("Call Script: ")
-        console.log(scriptName)
-        console.log(arg1 +" "+ arg2)
+        console.log("Call python Script: "+scriptName);
         return new Promise((resolve, reject)=>{
             pyProcess = spawn('python',[scriptName, arg1, arg2]);
             pyProcess.stdout.on(`data` , (data) => {
@@ -29,8 +27,7 @@ function Python(){
                 reject(err)
             });
         })
-        
-
+    
     }
 
     return {

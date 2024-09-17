@@ -29,22 +29,42 @@ router.post('/vtt', (req, res, next)=>{
 // gets service/s using the origin and destination of trip
 router.get('/getservice', async (req, res, next) => {
     const { origin, destination } = req.query;
-    const response = await ai.fromPrompt(req.query.prompt);
+    const response = await ai.createRouteFromSentence(req.query.prompt);
     res.json({ message: 'Navigation: get services', data: response });
 })
 
-//gets service/s using the origin and destination of trip
+//gets chargers nearest to location using python scripts
 router.get('/getchargers', async (req, res, next) => {
 
-    // const getChargersUrl = path.resolve(__dirname, '..', 'scripts','python','getnearestcharger.py')
     const { lat, lon, chargerType } = req.query;
     
-    // //load local JSON for API testing
+    // functionality to get charging stations from python script
+    const getChargersUrl = path.resolve(__dirname, '..', 'scripts','python','getnearestcharger.py')
+    let result = await PyWrap.callScript(getChargersUrl, lat, lon); 
+
+    res.json({ message: 'Navigation: get nearest chargers', data: result.data });
+})
+
+//gets chargers nearest to location using python nodejs
+router.get('/getchargersnode', async (req, res, next) => {
+
+    const { lat, lon, chargerType } = req.query;
+    
+    // functionality to get charging stations from python script
+    const response = await ai.getEVChargers({lat, lon}, 3000)
+    console.log(response)
+
+    res.json({ message: 'Navigation: get nearest chargers', data: response.data });
+})
+
+//gets charger single charger using local file for testing
+router.get('/getchargerstest', async (req, res, next) => {
+
+    const { lat, lon, chargerType } = req.query;
+    
+    //load local JSON for API testing
     let result = await LocalJSON.load("./tests/testData/testData.json");
     if(result.error) return result;
-
-    // // functionality to get charging stations from python script
-    // let data = await PyWrap.callScript(getChargersUrl, lat, lon); 
 
     res.json({ message: 'Navigation: get nearest chargers', data: result.data });
 })

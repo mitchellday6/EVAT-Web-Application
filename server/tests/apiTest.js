@@ -18,9 +18,11 @@ async function getData(method, url, commentString, data) {
 
         if (!res.ok) {
             console.log("Error sending request - Status: " + res.status);
+            return;
         }
         //convert to json
         const jsonRes = await res.json();
+        console.log(jsonRes)
         console.log(JSON.stringify(jsonRes))
     } catch (error) {
 
@@ -36,8 +38,10 @@ async function getData(method, url, commentString, data) {
 
 
 //config api tests
-getData("GET", "http://localhost:3001/api/config", "Config API", {})
+// getData("GET", "http://localhost:3001/api/config", "Config API", {})
 
-getData("GET", "http://localhost:3001/api/navigation", "Navigation with prompt", { prompt: "Get me some maps" });
+// getData("GET", "http://localhost:3001/api/navigation/getservice", "Navigation with prompt", { prompt: "Trip from geelong to melbourne city" });
+// getData("GET", "http://localhost:3001/api/navigation/getchargersnode", "Nearest Charger: Node Libraries", { lat: -38.21654, lon: 144.2316454});
+getData("GET", "http://localhost:3001/api/navigation/getchargerstest", "Nearest Charger: Static file", { lat: -38.21654, lon: 144.2316454});
 
-getData("GET", "http://localhost:3001/api/vehicle/getall", "Vehicle get list", {});
+// getData("GET", "http://localhost:3001/api/vehicle/getall", "Vehicle get list", {});

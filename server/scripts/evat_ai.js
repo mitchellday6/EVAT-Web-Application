@@ -1,5 +1,6 @@
 // Import necessary libraries
 const fs = require("fs");
+require('dotenv').config()
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const { Client } = require("@googlemaps/google-maps-services-js");
 const speech = require("@google-cloud/speech");
@@ -12,7 +13,6 @@ const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 const EVAT_AI = () => {
   const apiKey = process.env.GOOGLE_MAPS_API_KEY; // Replace with your Google Maps API Key
-
   /**
    * Extract locations from a natural language sentence.
    * @param {string} sentence - The sentence to extract locations from.
@@ -94,18 +94,20 @@ const EVAT_AI = () => {
    * @returns {Array} An array of nearby EV chargers with their names and distances.
    * @description This function uses the Google Places API to find nearby EV chargers within a certain radius.
    */
-  const getEVChargers = async (location, distance = 5000) => {
+  const getEVChargers = async (location, distance = 3000) => {
     const evChargers = await mapsClient.placesNearby({
       params: {
         location: location,
         radius: distance,
-        type: "ev chargers",
+        type: "",
         keyword: "EV charging station",
         key: apiKey,
       },
     });
 
-    return evChargers.data.results;
+    // console.log(evChargers.data)
+
+    return evChargers.data;
     //BELOW RETURNS FILTERED DATA
     // return evChargers.data.results.map((charger) => ({
     //   name: charger.name,

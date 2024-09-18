@@ -35,26 +35,34 @@ router.get('/getservice', async (req, res, next) => {
 
 //gets chargers nearest to location using python scripts
 router.get('/getchargers', async (req, res, next) => {
-
     const { lat, lon, chargerType } = req.query;
-    
+
+    //for testing time taken to retrieve data
+    console.log(new Date())
+
     // functionality to get charging stations from python script
     const getChargersUrl = path.resolve(__dirname, '..', 'scripts','python','getnearestcharger.py')
     let result = await PyWrap.callScript(getChargersUrl, lat, lon); 
+    
+    //for testing time taken to retrieve data
+    console.log(new Date())
+    console.log(result)
 
     res.json({ message: 'Navigation: get nearest chargers', data: result.data });
 })
 
 //gets chargers nearest to location using python nodejs
 router.get('/getchargersnode', async (req, res, next) => {
-
-    const { lat, lon, chargerType } = req.query;
+    console.log("Getting Chargers Google API")
+    const { lat, lon, distance, chargerType } = req.query;
+    const dist = !distance ? 3000 : distance;
     
     // functionality to get charging stations from python script
-    const response = await ai.getEVChargers({lat, lon}, 3000)
-    console.log(response)
+    const response = await ai.getEVChargers({lat, lng: lon}, dist)
 
-    res.json({ message: 'Navigation: get nearest chargers', data: response.data });
+    // console.log(response)
+
+    res.json({ message: 'Navigation: get nearest chargers', data: response.results });
 })
 
 //gets charger single charger using local file for testing

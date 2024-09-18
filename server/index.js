@@ -26,9 +26,10 @@ app.use('/api/navigation', NavRoutes);
 app.use(express.static('../build'));
 
 app.get('*', (req, res) => {
-    const url = path.resolve(__dirname, '..', 'build', 'index.html');
+    //uncomment this if you have static files to server
+    const url = path.resolve(__dirname, 'build', 'index.html');
     // console.log(url)
-    res.sendFile(path.resolve(__dirname, '..', 'build',));
+    res.sendFile(path.resolve(__dirname, 'build',));
 });
 
 

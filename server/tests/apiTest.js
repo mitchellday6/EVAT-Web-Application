@@ -22,15 +22,16 @@ async function getData(method, url, commentString, data) {
         }
         //convert to json
         const jsonRes = await res.json();
-        console.log(jsonRes)
-        console.log(JSON.stringify(jsonRes))
+        // console.log(jsonRes)
+        // console.log(JSON.stringify(jsonRes))
+        return jsonRes
     } catch (error) {
 
         switch(error.cause.code){
             case "ECONNREFUSED":
                 return {error: true, message: "Connection Refused"};
             default:
-                return {error: true, message: "error.message"}
+                return {error: true, message: error.message}
         }
     }
 
@@ -41,7 +42,10 @@ async function getData(method, url, commentString, data) {
 // getData("GET", "http://localhost:3001/api/config", "Config API", {})
 
 // getData("GET", "http://localhost:3001/api/navigation/getservice", "Navigation with prompt", { prompt: "Trip from geelong to melbourne city" });
-// getData("GET", "http://localhost:3001/api/navigation/getchargersnode", "Nearest Charger: Node Libraries", { lat: -38.21654, lon: 144.2316454});
-getData("GET", "http://localhost:3001/api/navigation/getchargerstest", "Nearest Charger: Static file", { lat: -38.21654, lon: 144.2316454});
+getData("GET", "http://localhost:3001/api/navigation/getchargersnode", "Nearest Charger: Node Libraries", { lat: -38.162328, lon: 144.363099})
+    .then(data=>{
+        console.log(data)
+    });
+// getData("GET", "http://localhost:3001/api/navigation/getchargerstest", "Nearest Charger: Static file", { lat: -38.21654, lon: 144.2316454});
 
 // getData("GET", "http://localhost:3001/api/vehicle/getall", "Vehicle get list", {});

@@ -20,7 +20,7 @@ import sys
 client = MongoClient("mongodb+srv://EVAT:EVAT123@cluster0.5axoq.mongodb.net/")
 db = client['EVAT']  # Replace with your MongoDB database name
 charging_stations_collection = db['charging_stations']  # Replace with your collection name
-
+# print(charging_stations_collection)
 # Function to get all stations data from MongoDB
 def get_stations_data():
     stations = list(charging_stations_collection.find({}))
@@ -180,7 +180,7 @@ if __name__ == "__main__":
     lon = float(sys.argv[2])
     chargerType = sys.argv[3]
 
-    print(f"Get NEarest Stations")
+    # print(f"Get Nearest Stations")
 
     user_prefs = {
         'amenities': ['charging_station'],

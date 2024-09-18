@@ -1,6 +1,6 @@
 {
   "name": "evat-server",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Server for the EVAT system",
   "main": "index.js",
   "scripts": {

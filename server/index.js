@@ -23,13 +23,13 @@ app.use('/api/vehicle', VehicleRoutes);
 app.use('/api/navigation', NavRoutes);
 
 
-app.use(express.static('../build'));
+app.use(express.static('./build'));
 
 app.get('*', (req, res) => {
     //uncomment this if you have static files to server
-    const url = path.resolve(__dirname, 'build', 'index.html');
-    // console.log(url)
-    res.sendFile(path.resolve(__dirname, 'build',));
+    const url = path.resolve(__dirname, 'build', 'error.html');
+    console.log(url)
+    res.sendFile(url);
 });
 
 

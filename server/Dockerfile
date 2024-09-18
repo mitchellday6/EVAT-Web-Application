@@ -24,7 +24,6 @@ RUN npm install --production
 
 # Copy the rest of the application code
 COPY . .
-COPY ../build ./build
 
 # Expose the port your application will run on
 EXPOSE 3001

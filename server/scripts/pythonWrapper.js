@@ -25,12 +25,10 @@ function Python(){
         
             pyProcess.on('close' , function(code) {
                 console.log("Py Process Closed. Data:")
-                console.log(result);
-                console.log(errString);
                 resolve(result)
             });
             pyProcess.on('error' , function(err){
-                console.log("Error on python script:");
+                console.log("Error on python script: ");
                 console.log(err);
                 reject(err)
             });

@@ -7,6 +7,17 @@ const path = require("path");
 
 const ai = EVAT_AI();
 
+//checks if lat and lon are valid
+function isLatLonValid(lat, lon){
+    if(!lat || !lon || isNaN(lat) || isNaN(lon)){
+        return {error: true, message: "Did not provide enough information: lat or lon not valid or missing"};
+    }
+    if(lat < -90 || lat > 90 || lon < -180 || lon > 180){
+        return {error: true, message: "Invalid data values: lat or lon value not within range lat = -90 to 90, lon = -180 to 180)"};
+    }
+    return true;
+}
+
 
 router.get('/', async (req, res, next) => {
     if (!req.query.prompt) {
@@ -38,6 +49,7 @@ router.get('/getchargers', async (req, res, next) => {
     const { lat, lon, chargerType } = req.query;
 
     //for testing time taken to retrieve data
+    console.log("Getting Nearest Charging Station")
     console.log(new Date())
 
     // functionality to get charging stations from python script
@@ -45,16 +57,24 @@ router.get('/getchargers', async (req, res, next) => {
     let result = await PyWrap.callScript(getChargersUrl, lat, lon); 
     
     //for testing time taken to retrieve data
+    console.log("Charging Station Retrieved")
     console.log(new Date())
-    console.log(result)
-
-    res.json({ message: 'Navigation: get nearest chargers', data: result.data });
+    
+    res.json({ message: 'Navigation: get nearest chargers', data: JSON.parse(result) });
 })
 
 //gets chargers nearest to location using python nodejs
-router.get('/getchargersnode', async (req, res, next) => {
+router.get('/ev-chargers', async (req, res, next) => {
     console.log("Getting Chargers Google API")
     const { lat, lon, distance, chargerType } = req.query;
+    //check if lat and lon values have been given
+    const locCheck = isLatLonValid(lat, lon)
+    if(locCheck.error){
+        res.statusCode = 400;
+        return res.json({error: true, message: locCheck.message});
+    }
+
+
     const dist = !distance ? 3000 : distance;
     
     // functionality to get charging stations from python script

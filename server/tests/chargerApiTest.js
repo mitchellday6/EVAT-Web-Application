@@ -36,4 +36,7 @@ async function getData(method, url, commentString, data) {
 
 
 
-getData("GET", "http://localhost:3001/api/navigation/getchargers", "Get Ev Chargers API Test", {lat: -38.156041, lon: 144.361325, chargerType: "Charger 1"});
+getData("GET", "http://localhost:3001/api/navigation/getchargers", "Get Ev Chargers API Test", {lat: -38.156041, lon: 144.361325, chargerType: "Charger 1"})
+    .then(data=>{
+        console.log(data)
+    });

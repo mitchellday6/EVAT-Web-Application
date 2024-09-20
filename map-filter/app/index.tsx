@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { StyleSheet,Button, Text, View, TouchableOpacity,StyleProp, ViewStyle, TextStyle,ScrollView } from 'react-native';
+import { StyleSheet, Button, Modal, Text,TextInput, View, Pressable, TouchableOpacity, TouchableWithoutFeedback, StyleProp, ViewStyle, TextStyle, ScrollView } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 interface ToggleButtonProps {
   label: string;
   name: string;
   onToggle: (name: string, toggled: boolean) => void;
   style?: StyleProp<ViewStyle>;
 }
-
 const ToggleButton: React.FC<ToggleButtonProps> = ({ label, onToggle, style }) => {
   const [toggled, setToggled] = useState(false);
 
@@ -28,10 +28,76 @@ return (
     </TouchableOpacity>
   );
 };  
+type MyCheckboxProps = {
+  checked: boolean;
+  onChange: (checked: boolean) => void;
+  buttonStyle?: object;
+  activeButtonStyle?: object;
+  inactiveButtonStyle?: object;
+  activeIconProps?: object;
+  inactiveIconProps?: object;
+};
+
+function MyCheckbox({
+  checked,
+  onChange,
+  buttonStyle = {},
+  activeButtonStyle = {},
+  inactiveButtonStyle = {},
+  activeIconProps = {},
+  inactiveIconProps = {},
+}: MyCheckboxProps) {
+  const iconProps = checked ? activeIconProps : inactiveIconProps;
+  return (
+    <Pressable
+      style={[
+        buttonStyle,
+        checked
+          ? activeButtonStyle
+          : inactiveButtonStyle,
+      ]}
+      onPress={() => onChange(!checked)}>
+      {checked && (
+        <Ionicons
+          name="checkmark"
+          size={24}
+          color="white"
+          {...iconProps}
+        />
+      )}
+    </Pressable>
+  );
+}
+
 export default function App() {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [modalContent, setModalContent] = useState('');
+  const [modalVisible, setModalVisible] = useState<string | null>(null);
+
+  const [checked1, setChecked1] = useState(false);
+  const [checked2, setChecked2] = useState(false);
+  const [checked3, setChecked3] = useState(false);
+
   const handleToggle = (name: string, toggled: boolean) => {
     console.log(`${name} toggled: ${toggled}`);
-  };  
+  };
+
+  const toggleModal = (type: string | null) => {
+    setModalVisible(type);
+  };
+
+  const handleOverlayPress = () => {
+    setModalVisible(null);
+  };
+  const handleOpenModal = (content: string) => {
+    setModalContent(content);
+    setIsModalVisible(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalVisible(false);
+  };
+
   return (
     <ScrollView style={styles.scrollView}>
     <View style={styles.appContainer}></View>
@@ -50,23 +116,99 @@ export default function App() {
 
       <Text style={styles.comingSoon}>Coming Soon</Text>
       <Text style={styles.includeComingSoon}>Include Coming Soon</Text>
+
+      <MyCheckbox
+          checked={checked1}
+          onChange={setChecked1}
+          buttonStyle={styles.checkboxBase}
+          activeButtonStyle={styles.checkboxChecked}
+        />
       <View style={styles.line} />
 
+
       <Text style={styles.showOnlyComingSoon}>Show Only Coming Soon</Text>
+  
+      <MyCheckbox
+          checked={checked2}
+          onChange={setChecked2}
+          buttonStyle={styles.checkboxBase2}
+          activeButtonStyle={styles.checkboxChecked2}
+        />
       <View style={styles.line2} />
+    
 
       <Text style={styles.hideComingSoon}>Hide Coming Soon</Text>
+      <MyCheckbox
+          checked={checked3}
+          onChange={setChecked3}
+          buttonStyle={styles.checkboxBase3}
+          activeButtonStyle={styles.checkboxChecked3}
+        />
+        
       <View style={styles.line3} />
+      
 
       <Text style={styles.networksAndCountry}>Networks and Country</Text>
       <View style={styles.rectangle62} />
       <View style={styles.line4} />
       
-      <Text style={styles.all}>All</Text>
       <Text style={styles.networks}>Networks</Text>
+      <TouchableOpacity onPress={() => toggleModal('all')}style={styles.button}>
+        <Text style={styles.all}>All</Text>
+       </TouchableOpacity>
+      {/* Modal for "All" */}
+      <Modal
+        transparent={true}
+        visible={modalVisible === 'all'}
+        onRequestClose={() => toggleModal(null)}
+        animationType="fade"
+        style={{ zIndex: 10 }} 
+      >
+      <Pressable style={styles.modalOverlay} onPress={handleOverlayPress}>
+                <View style={styles.modalContainerAll}>
+                  <View style={styles.modalContent}>
+                    <TextInput style={styles.searchInput} placeholder="Search Networks" />
+                    <View style={styles.buttonContainer}></View>
+                    <Button title="All" onPress={() => {}} />
+                    <Button title="ChargePoint" onPress={() => {}} />
+                    <Button title="EV Connect" onPress={() => {}} />
+                    <Button title="Lumo Energy" onPress={() => {}} />
+                    <Button title="Tesla Supercharger" onPress={() => {}} />
+                  </View>
+                </View>
+              </Pressable>
+            </Modal>
 
-      <Text style={styles.currentLocation}>Current Location</Text>
       <Text style={styles.country}>Country</Text>
+      <TouchableOpacity onPress={() => toggleModal('currentLocation')}style={styles.button}>
+        <Text style={styles.currentLocation}>Current Location </Text>
+      </TouchableOpacity>
+      {/* Modal for "Current Location" */}
+      <Modal
+        transparent={true}
+        visible={modalVisible === 'currentLocation'}
+        onRequestClose={() => toggleModal(null)}
+        animationType="fade"
+        style={{ zIndex: 10 }} 
+      >
+        <Pressable style={styles.modalOverlay} onPress={handleOverlayPress}>
+          <View style={styles.modalContainerLocation}>
+            <View style={styles.modalContent}>
+              <TextInput style={styles.searchInput} placeholder="Search Location..." />
+              <View style={styles.buttonContainer}></View>
+              <Button title="Current Location" onPress={() => {}} />
+              <Button title="ACT" onPress={() => {}} />
+              <Button title="NSW" onPress={() => {}} />
+              <Button title="NT" onPress={() => {}} />
+              <Button title="QLD" onPress={() => {}} />
+              <Button title="SA" onPress={() => {}} />
+              <Button title="TAS" onPress={() => {}} />
+              <Button title="VIC" onPress={() => {}} />
+              <Button title="WA" onPress={() => {}} />
+            </View>
+          </View>
+        </Pressable>
+      </Modal>
 
       <Text style={styles.matchingResultFound}>66 Matching Result Found</Text>
       <ToggleButton label="View" name="View" onToggle={handleToggle} style={{ width: 65,height: 30, position: 'absolute',top: 1832,left: 321,zIndex: 2, }} />
@@ -76,11 +218,10 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-
   appContainer: {
     width: 393, height: 1871, position: 'relative',
     backgroundColor: '#CFF9FF',
-    flex: 1,
+   
     alignItems: 'center',
     justifyContent: 'flex-end',
   },
@@ -90,7 +231,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
   },
   scrollView: {
-    
     flexGrow: 1,
   },
   additionalFilters: {
@@ -148,9 +288,24 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter',
     fontWeight: '700',
   },
+  checkboxBase: {
+    width: 24,
+    height: 24,
+    left: 315,
+    top: 1482,
+    position: 'absolute',
+    borderRadius: 4,
+    borderWidth: 2,
+    borderColor: '#2AB4DF',
+    backgroundColor: 'transparent',
+  },
+  checkboxChecked: {
+    backgroundColor: '#2AB4DF',
+  },
   line: {
     width: 350,
     height: 0,
+    left:20,
     position: 'absolute',
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(0, 0, 0, 0.16)',
@@ -166,9 +321,24 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter',
     fontWeight: '700',
   },
+  checkboxBase2: {
+    width: 24,
+    height: 24,
+    left: 315,
+    top: 1532,
+    position: 'absolute',
+    borderRadius: 4,
+    borderWidth: 2,
+    borderColor: '#2AB4DF',
+    backgroundColor: 'transparent',
+  },
+  checkboxChecked2: {
+    backgroundColor: '#2AB4DF',
+  },
   line2: {
     width: 350,
     height: 0,
+    left:20,
     position: 'absolute',
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(0, 0, 0, 0.16)',
@@ -184,9 +354,24 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter',
     fontWeight: '700',
   },
+  checkboxBase3: {
+    width: 24,
+    height: 24,
+    left: 315,
+    top: 1582,
+    position: 'absolute',
+    borderRadius: 4,
+    borderWidth: 2,
+    borderColor: '#2AB4DF',
+    backgroundColor: 'transparent',
+  },
+  checkboxChecked3: {
+    backgroundColor: '#2AB4DF',
+  },
   line3: {
     width: 350,
     height: 0,
+    left:20,
     position: 'absolute',
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(0, 0, 0, 0.16)',
@@ -241,12 +426,13 @@ const styles = StyleSheet.create({
     height: 25,
     position: 'absolute',
     left: 315,
-    top: 1679,
+    top: 1680,
     textAlign: 'center',
     color: '#2AB4DF',
     fontSize: 16,
     fontFamily: 'Inter',
     fontWeight: '700',
+    zIndex: 20,
   },
   country: {
     width: 70,
@@ -261,9 +447,9 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   currentLocation: {
-    width: 135,
+    width: 160,
     height: 25,
-    left: 214,
+    left: 200,
     top: 1720,
     position: 'absolute',
     textAlign: 'center',
@@ -271,6 +457,72 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: 'Inter',
     fontWeight: '700',
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  button:{
+    width: 304,
+    height: 257,
+    position: 'absolute',
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: '#2AB4DF',
+    padding: 20,
+    elevation: 10,
+  },
+  modalContainerAll: {
+    width: 250,
+    height: 280,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+    borderWidth: 2,
+    backgroundColor: 'white',
+    borderColor: '#2AB4DF',
+    padding: 20,
+    elevation: 10,
+  },
+  modalContainerLocation: {
+    width: 240,
+    height: 420,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: '#2AB4DF',
+    padding: 20,
+    elevation: 10,
+  },
+  modalContent: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+  },
+  buttonContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    marginBottom: 10,
+  },
+  modalTitle: {
+    fontSize: 20,
+    marginBottom: 10,
+  },
+  searchInput: {
+    width: '100%',
+    height: 40,
+    borderColor: '#2AB4DF',
+    backgroundColor: '#2AB4DF',
+    color: '#fff',
+    borderRadius: 10,
+    borderWidth: 1,
+    marginBottom: 10,
+    paddingHorizontal: 10,
   },
   matchingResultFound: {
     width: 150,
@@ -283,6 +535,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: 'Inter',
     fontWeight: '700',
-    zIndex: 2,
   },
 });
+

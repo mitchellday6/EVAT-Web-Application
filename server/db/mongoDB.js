@@ -36,6 +36,16 @@ class MongoDB {
             console.log('MongoDB connection closed');
         }
     }
+    async getChargingStations() {
+        try {
+            const collection = this.getDB().collection('charging_stations');
+            const stations = await collection.find({}).toArray(); // Fetch all stations
+            return stations;
+        } catch (error) {
+            console.error('Error retrieving charging stations:', error);
+            throw error;
+        }
+    }
 }
 
 module.exports = MongoDB;

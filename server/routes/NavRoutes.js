@@ -7,6 +7,8 @@ const path = require("path");
 
 const ai = EVAT_AI();
 
+
+
 //checks if lat and lon are valid
 function isLatLonValid(lat, lon){
     if(!lat || !lon || isNaN(lat) || isNaN(lon)){
@@ -19,10 +21,13 @@ function isLatLonValid(lat, lon){
 }
 
 
+
+
+//ROUTER END POINTS
 router.get('/', async (req, res, next) => {
     if (!req.query.prompt) {
-        res.json({ error: true, message: '/api/navigation: No Prompt present' });
-        return;
+        res.statusCode = 400;
+        return res.json({ error: true, message: '/api/navigation: No Prompt present' });
     } else {
         const response = await ai.fromPrompt(req.query.prompt);
         res.json({ message: 'Navigation API root', data: response });
@@ -73,7 +78,6 @@ router.get('/ev-chargers', async (req, res, next) => {
         res.statusCode = 400;
         return res.json({error: true, message: locCheck.message});
     }
-
 
     const dist = !distance ? 3000 : distance;
     

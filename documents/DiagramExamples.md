@@ -39,25 +39,25 @@ flowchart LR
     %% API Router sits above the subgraphs
     
     subgraph Navigation
-      D --> E1[fa:fa-book ev-chargers]
-      D --> E2[vtt]
-      D --> E3[route]
-      D --> E4[route-from-sentence]
+      D --> N1[fa:fa-book ev-chargers]
+      D --> N2[vtt]
+      D --> N3[route]
+      D --> N4[route-from-sentence]
     end
     
     subgraph Vehicle
-      D --> F1[vehicle-data]
-      D --> F2[vehicle-status]
+      D --> V1[vehicle-data]
+      D --> V2[vehicle-status]
     end
     
     subgraph Config
-      D --> G1[config-get]
-      D --> G2[config-update]
+      D --> C1[config-get]
+      D --> C2[config-update]
     end
     
     subgraph User
-      D --> H1[user-info]
-      D --> H2[user-settings]
+      D --> U1[user-info]
+      D --> U2[user-settings]
     end
 
     subgraph Features
@@ -74,9 +74,9 @@ flowchart LR
     classDef notStarted fill:#aa0000,stroke:#333,stroke-width:2px;
 
     class A,B,C,D,Complete complete
-    class E1,Near nearComplete
-    class E2,E3,E4,Progress progress
-    class F1,F2,F3,G1,G2,H1,H2,Not notStarted
+    class N1,Near nearComplete
+    class N2,N3,N4,Progress progress
+    class V1,V2,U1,U2,C1,C2,Not notStarted
 ```
 
 ## Top Down Grpah / Flowchart Example (TD for Top Down)

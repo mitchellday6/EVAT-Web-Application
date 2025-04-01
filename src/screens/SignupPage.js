@@ -34,7 +34,7 @@ const SignupPage = ({navigation}) => {
       if (response.ok) {
         // Handle successful sign-up
         console.log('Sign-up successful', data);
-        navigation.navigate('SignIn')
+        navigation.navigate('Signin')
       } else {
         // Handle sign-up error
         console.log('Sign-up failed', data.message);

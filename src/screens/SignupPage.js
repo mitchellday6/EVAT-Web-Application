@@ -12,6 +12,10 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
+//New Line
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { useEffect } from 'react';
+
 const config = ConfigData();
 const url = `${config.backend.ipAddress}:${config.backend.port}/api/auth/register`
 
@@ -20,6 +24,14 @@ const SignupPage = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSubscribed, setIsSubscribed] = useState(false);
+
+  //New Line Google sign-in effect
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId: '1049159207399-bj8596r36juqjrnssd8k2bspsng7dfpr.apps.googleusercontent.com', // the one under "OAuth 2.0 Client IDs" in Firebase
+    });
+  }, []);
+
 
   const handleEmailSignup = async () => {
     try {
@@ -48,9 +60,52 @@ const SignupPage = ({ navigation }) => {
     }
   };
 
-  const handleGoogleSignup = () => {
-    // Implement Google sign up logic
-  };
+   //New Line Google Signup
+  const handleGoogleSignup = async () => {
+    try {
+      // Initiate Google Sign-in
+      const userInfo = await GoogleSignin.signIn();
+
+      // Log user info
+      console.log('Google User Info: ', userInfo);
+
+      // Extract user details from Google Sign-in
+      const { idToken, user: { name, email } } = userInfo;
+
+      // Prepare the user details to send to your backend
+      const userDetails = {
+        "fullName": "Milly",
+          "email": "example@deakin.edu.au",
+          "password": "password123", // You can set a random password or generate one securely
+      };
+
+      // Call your backend API to register the user
+      const response = await fetch('https://evat.ddns.net:8080/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userDetails),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Handle successful registration
+        console.log('Signup successful', data);
+        Alert.alert('Signup Success', 'You have been registered successfully!', [
+          { text: 'OK', onPress: () => navigation.navigate('MapPage') },
+        ]);
+      } else {
+        // Handle registration failure (e.g., email already exists)
+        console.error('Signup failed:', data.message);
+        Alert.alert('Signup Failed', data.message || 'Something went wrong.', [{ text: 'OK' }]);
+      }
+    } catch (error) {
+      console.error('Google Signup Error: ', error);
+      Alert.alert('Signup failed', 'An error occurred during the signup process.');
+    }
+  }
 
   const handleAppleSignup = () => {
     // Implement Apple sign up logic
@@ -125,11 +180,13 @@ const SignupPage = ({ navigation }) => {
 
 
 
-      {/*
+      {
+      //Uncomment for Google Signup
       <TouchableOpacity style={styles.appleButton} onPress={handleGoogleSignup}>
         <Text style={styles.emailButtonText}>Sign Up with Google</Text>
       </TouchableOpacity>
 
+        /*
       <TouchableOpacity style={styles.appleButton} onPress={handleAppleSignup}>
         <Text style={styles.emailButtonText}>Sign Up with Apple</Text>
       </TouchableOpacity>
@@ -256,6 +313,23 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     fontSize: 14,
   },
+
+  //New Styiling for signup google
+  googleButton: {
+    backgroundColor: '#db4437', // Google red color
+    padding: 16,
+    borderRadius: 8,
+    marginBottom: 12,
+    alignItems: 'center',
+    width: '100%',
+  },
+  googleButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  }
 });
+
+
 
 export default SignupPage;

@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:1049159207399:android:6c4c683dc4838e7f2f1542",
         "android_client_info": {
-          "package_name": "come.evat"
+          "package_name": "com.evat"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "1049159207399-makggcv7fr7q969mslbujpp37msf31hp.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "come.evat",
+            "package_name": "com.evat",
             "certificate_hash": "2b8cd4364c1eac0216d90f40754ef798d7266cbf"
           }
         },

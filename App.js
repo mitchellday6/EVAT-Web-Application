@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { enableScreens } from 'react-native-screens';
 import SigninPage from './src/screens/SigninPage';
-import SignupPage from './src/screens/SignupPage';
+import SignupPage from './EVAT-Web-Application/src/screens/SignupPage';
 import MapPage from './src/pages/MapPage';
 
 enableScreens();

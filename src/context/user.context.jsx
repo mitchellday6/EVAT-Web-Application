@@ -5,8 +5,12 @@ export const UserContext = createContext({
     setUser: _=> null,
 });
 
-export const LayerProvider = ({children})=>{
+export const UserProvider = ({children})=>{
     const [user, setUser] = useState(null);
     const value = {user, setUser};
-    return <UserContext.Provider value={value}>{children}</UserContext.Provider>
+
+    return (
+    <UserContext.Provider value={value}>
+        {children}
+    </UserContext.Provider>)
 }

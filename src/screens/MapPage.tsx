@@ -1,7 +1,7 @@
 // declare const navigator: any;
 import GetLocation from 'react-native-get-location'
-import React, { useEffect, useState } from 'react';
-import FakeChargers from '../data/test_amenitites_local.json';
+import React, { useEffect, useState, useContext } from 'react';
+import { UserContext } from '../context/user.context';
 import {
   Text,
   View,
@@ -15,7 +15,7 @@ import {
   Button
 } from 'react-native';
 
-import MapView, { Marker, Region } from 'react-native-maps';
+import MapView, { Region } from 'react-native-maps';
 import ChargerMarker from '../components/ChargerInfo';
 import { ConfigData } from '../data/config';
 import NavBar from '../components/Navbar';
@@ -41,25 +41,16 @@ type GeolocationPositionError = {
   message: string;
 };
 
-//dummy data
-const chargerOptions = {
-  charger: {
-    title: "Charger 1",
-    location: {
-      latitude: -22.22222,
-      longitude: 111.11111
-    },
-    details: "This is a dummy charger"
-  }
-}
+
 
 
 const MapPage = () => {
   const [region, setRegion] = useState<Region | null>(null);
   const [error, setError] = useState<boolean | null>(null);
   const [chargers, setChargers] = useState<Object | null>(null);
+  const { user, setUser } = useContext(UserContext);
 
-
+  // Alert.alert(`Welcome ${user?.fullName}`, `Click on any Charger icon to get see its details.`, [{text: 'Ok',}]);
 
   const requestLocationPermission = async () => {
     if (Platform.OS === 'android') {
@@ -71,11 +62,8 @@ const MapPage = () => {
       }
     } else {
       //handle position granted
-
     }
   };
-
-
 
   const getChargers = async (location: {}, distance: number) => {
     try {
@@ -144,33 +132,8 @@ const MapPage = () => {
         style={styles.map}
         region={region}
         showsUserLocation={true}>
-
-        {region && chargers && chargers.map(charger => <ChargerMarker key={`${charger.id}`} charger={charger} />)}
-
-        {/* {region && chargers && chargers.map(charger =>
-          <Marker
-            key={`${charger.id}`}
-            identifier={`${charger.id}`}
-            // onPress={() => setChargerInfo(chargerOptions)}
-            coordinate={{ latitude: charger.geometry.location.lat, longitude: charger.geometry.location.lng }}
-            title={charger.title?.toString() || charger.brand?.toString() || charger.name?.toString() || "Charger"}
-            description={charger?.description ? charger.description : "No description"}
-            onCalloutPress={() => {
-              const info = Object.entries(charger)
-                .map(([key, value]) => `${key}: ${value}`)
-                .join('\n');
-
-              Alert.alert("Charger Information", info, [
-                { text: 'OK', onPress: () => console.log('OK Pressed') }
-              ]);
-            }}
-          >
-            <Image source={require('../data/ev_charger_symbol.webp')} style={styles.marker} />
-          </Marker>)} */}
-
+        {region && chargers && chargers.map((charger, idx) => <ChargerMarker key={`${idx}`} charger={charger} />)}
       </MapView>
-      {/* <View style={styles.navbar}>
-      </View> */}
       <NavBar />
     </View >
   );
@@ -178,7 +141,7 @@ const MapPage = () => {
 
 const styles = StyleSheet.create({
   container: {
-    ...StyleSheet.absoluteFillObject,
+    // ...StyleSheet.absoluteFillObject,
     flex: 1,
   },
   map: {

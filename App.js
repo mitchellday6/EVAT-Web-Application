@@ -28,8 +28,8 @@ const App = () => {
     <UserProvider>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Login">
-          <Stack.Screen name="Signin" component={SigninPage} options={{ ...options, title: "EVAT Sign In" }} />
-          <Stack.Screen name="Signup" component={SignupPage} options={{ ...options, title: "EVAT Sign Up" }} />
+          <Stack.Screen name="SigninPage" component={SigninPage} options={{ ...options, title: "EVAT Sign In" }} />
+          <Stack.Screen name="SignupPage" component={SignupPage} options={{ ...options, title: "EVAT Sign Up" }} />
           <Stack.Screen name="MapPage" component={MapPage} options={{ ...options, title: "EVAT", headerBackTitleVisible: false, headerTitleAlign: 'left' }} />
         </Stack.Navigator>
       </NavigationContainer>

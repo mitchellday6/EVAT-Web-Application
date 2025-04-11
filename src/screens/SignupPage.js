@@ -36,7 +36,7 @@ const SignupPage = ({ navigation }) => {
         // Handle successful sign-up
         console.log('✅ Sign-up successful', data);
         Alert.alert('✅ Sign Up', "Success"
-                  [{text: 'Ok', onPress: () => navigation.navigate("Signin")}]);
+                  [{text: 'Ok', onPress: () => navigation.navigate("SigninPage")}]);
       } else {
         // Handle sign-up error
         Alert.alert('❌ Sign Up', ` ${data.message}`,[{text: 'Ok'}]);
@@ -141,7 +141,7 @@ const SignupPage = ({ navigation }) => {
 
       <TouchableOpacity
         style={styles.appleButton}
-        onPress={() => navigation.navigate('Signin')}>
+        onPress={() => navigation.navigate('SigninPage')}>
         <Text style={styles.emailButtonText}>
           Already have an account? Sign In
         </Text>

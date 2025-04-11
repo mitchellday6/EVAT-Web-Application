@@ -117,7 +117,7 @@ const SigninPage = ({navigation}) => {
       </TouchableOpacity>
 
       */}
-      <TouchableOpacity color={"#64b131"} onPress={() => navigation.navigate('Signup')}>
+      <TouchableOpacity color={"#64b131"} onPress={() => navigation.navigate('SignupPage')}>
         <Text style={styles.signupText}>
           Don't you have an account? Go to Sign Up
         </Text>

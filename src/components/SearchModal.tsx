@@ -18,30 +18,33 @@ type SearchModalProps = {
   onResults: (results: any[]) => void;
 };
 
-const SearchModal: React.FC<SearchModalProps> = ({ visible, onClose, onResults }) => {
+const SearchModal: React.FC<SearchModalProps> = ({ visible, onClose, onResults, position }) => {
   const [name, setName] = React.useState('');
-  const [location, setLocation] = React.useState('');
+  const [latitude, setLatitude] = React.useState('');
+  const [longitude, setLongitude] = React.useState('');
   const [distance, setDistance] = React.useState('');
   const [connector, setConnector] = React.useState('');
   const [current, setCurrent] = React.useState('');
   const [operator, setOperator] = React.useState('');
+  setLatitude(position?.latitude);
+  setLongitude(position?.longitude);
 
   const handleSearch = async () => {
     try {
       const params = new URLSearchParams();
       if (name) params.append('name', name);
-      if (location) params.append('location', location);
+      if (lon) params.append('lon', longitude);
+      if (lat) params.append('lat', longitude);
       if (distance) params.append('distance', distance);
       if (connector) params.append('connectorType', connector);
       if (current) params.append('current', current);
-      if (operator) params.append('operator', operator);
+      if (operator) params.append('operator', operator);d
 
       const response = await fetch(`${apiUrl}?${params.toString()}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-        },
-      });
+      }});
 
       const data = await response.json();
       if (response.ok) {
@@ -59,31 +62,32 @@ const SearchModal: React.FC<SearchModalProps> = ({ visible, onClose, onResults }
   };
 
   return (
-    <Modal visible={visible} transparent animationType="slide">
-      <View style={styles.modalContainer}>
-        <Text style={styles.title}>Search Chargers</Text>
+    <Modal key={18} visible={visible} transparent animationType="slide">
+      <View key={16} style={styles.modalContainer}>
+        <Text key={1} style={styles.title}>Search Chargers</Text>
 
-        <TextInput style={styles.input} placeholder="Name" value={name} onChangeText={setName} />
-        <TextInput style={styles.input} placeholder="Location" value={location} onChangeText={setLocation} />
-        <TextInput style={styles.input} placeholder="Distance (km)" value={distance} onChangeText={setDistance} keyboardType="numeric" />
+        <TextInput key={2} style={styles.input} placeholder="Name" value={name} onChangeText={setName} />
+        <TextInput key={3} style={styles.input} placeholder="Latitude" value={latitude} onChangeText={setLatitude} />
+        <TextInput key={19} style={styles.input} placeholder="Longitude" value={longitude} onChangeText={setLongitude} />
+        <TextInput key={4} style={styles.input} placeholder="Distance (km)" value={distance} onChangeText={setDistance} keyboardType="numeric" />
 
-        <Picker selectedValue={connector} onValueChange={setConnector} style={pickerSelectStyles.inputAndroid}>
-          <Picker.Item label="Select Connector" value="" />
-          <Picker.Item label="Type 1" value="type1" />
-          <Picker.Item label="Type 2" value="type2" />
+        <Picker key={5} selectedValue={connector} onValueChange={setConnector} style={pickerSelectStyles.inputAndroid}>
+          <Picker.Item key={6} label="Select Connector" value="" />
+          <Picker.Item key={7} label="Type 1" value="type1" />
+          <Picker.Item key={8} label="Type 2" value="type2" />
         </Picker>
 
-        <Picker selectedValue={current} onValueChange={setCurrent} style={pickerSelectStyles.inputAndroid}>
-          <Picker.Item label="Select Current" value="" />
-          <Picker.Item label="AC" value="ac" />
-          <Picker.Item label="DC" value="dc" />
+        <Picker key={9} selectedValue={current} onValueChange={setCurrent} style={pickerSelectStyles.inputAndroid}>
+          <Picker.Item key={10} label="Select Current" value="" />
+          <Picker.Item key={11} label="AC" value="ac" />
+          <Picker.Item key={12} label="DC" value="dc" />
         </Picker>
 
-        <TextInput style={styles.input} placeholder="Operator" value={operator} onChangeText={setOperator} />
+        <TextInput key={13} style={styles.input} placeholder="Operator" value={operator} onChangeText={setOperator} />
 
-        <View style={styles.buttonContainer}>
-          <Button title="Search" onPress={handleSearch} color="lightgreen" />
-          <Button title="Cancel" onPress={onClose} color="lightgreen" />
+        <View key={17} style={styles.buttonContainer}>
+          <Button key={14} title="Search" onPress={handleSearch} color="lightgreen" />
+          <Button key={15} title="Cancel" onPress={onClose} color="lightgreen" />
         </View>
       </View>
     </Modal>

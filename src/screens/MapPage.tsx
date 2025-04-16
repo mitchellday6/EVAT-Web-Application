@@ -21,15 +21,13 @@ import ChargerMarker from '../components/ChargerInfo';
 import { ConfigData } from '../data/config';
 import NavBar from '../components/Navbar';
 import SearchModal from '../components/SearchModal';
-import SearchModal from '../components/SearchModal';
 
 const config = ConfigData();
 const url = `https://evat.vt2.app/api/navigation/getchargersnode`;
-const url = `https://evat.vt2.app/api/navigation/getchargersnode`
 
 
 const MapPage = () => {
-  const [region, setRegion] = useState<Region | null>(null);
+  const [region, setRegion] = useState<Region | null>(null);e
   const [error, setError] = useState<boolean | null>(null);
   const [chargers, setChargers] = useState<Object | null>(null);
   const [searchWindow, setSearchWindow] = useState<Boolean | false>(false);
@@ -49,7 +47,7 @@ const MapPage = () => {
 
 
   const searchFunction = () => {
-    console.log('Search Function Called'); 
+    console.log('Search Function Called');
     setSearchWindow(true);
   }
 
@@ -129,19 +127,19 @@ const MapPage = () => {
 
   return (
     <View style={styles.container}>
-      <SearchModal visible={searchWindow} onClose={() => setSearchWindow(false)} />
+      <SearchModal visible={searchWindow} location={region} onClose={() => setSearchWindow(false)} />
       <MapView
         style={styles.map}
         region={region}
         showsUserLocation={true}
       >
-        {region && chargers && chargers.map(charger => (
-          <ChargerMarker key={`${charger.id}`} charger={charger} />
+        {region && chargers && chargers.map((charger, i) => (
+          <ChargerMarker key={`${i}`} charger={charger} />
         ))}
       </MapView>
       {/* <View style={styles.navbar}>
       </View> */}
-      <NavBar />
+      <NavBar searchFunction={searchFunction} settingsFunction={settingsFunction}/>
     </View >
   );
 };

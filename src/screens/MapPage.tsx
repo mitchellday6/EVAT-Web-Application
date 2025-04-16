@@ -1,33 +1,27 @@
-// declare const navigator: any;
 import GetLocation from 'react-native-get-location';
 import React, { useEffect, useState } from 'react';
-import FakeChargers from '../data/test_amenitites_local.json';
 import {
-  Text,
   View,
   StyleSheet,
   PermissionsAndroid,
   Platform,
-  Modal,
   Alert,
   Dimensions,
-  Image,
-  Button
+  ActivityIndicator
 } from 'react-native';
 
-import MapView, { Marker, Region } from 'react-native-maps';
+import MapView, { Region } from 'react-native-maps';
 import ChargerMarker from '../components/ChargerInfo';
-import { ConfigData } from '../data/config';
 import NavBar from '../components/Navbar';
 import SearchModal from '../components/SearchModal';
 
-const config = ConfigData();
-const url = `https://evat.vt2.app/api/navigation/getchargersnode`;
+const url = `https://evat.vt2.app/api/navigation/getchargers`;
 
 const MapPage = () => {
   const [region, setRegion] = useState<Region | null>(null);
   const [chargers, setChargers] = useState<any[]>([]);
   const [searchVisible, setSearchVisible] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const requestLocationPermission = async () => {
     if (Platform.OS === 'android') {
@@ -43,6 +37,7 @@ const MapPage = () => {
   };
 
   const getChargers = async (location: any, distance: number) => {
+    setLoading(true);
     try {
       const response = await fetch(`${url}?lat=${location.latitude}&lon=${location.longitude}&distance=${distance}`, {
         method: 'GET',
@@ -52,13 +47,19 @@ const MapPage = () => {
       });
 
       const data = await response.json();
-      if (response.ok) {
+      if (Array.isArray(data.data)) {
+        console.log("Chargers fetched:", data.data.length);
         setChargers(data.data);
       } else {
-        console.log("Response not ok");
+        console.warn("Invalid charger data:", data);
+        setChargers([]);
       }
     } catch (error) {
-      console.log("Error with get chargers", error);
+      console.log("Error with getChargers:", error);
+      Alert.alert("Error", "Failed to fetch chargers.");
+      setChargers([]);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -79,6 +80,7 @@ const MapPage = () => {
       });
     } catch (error) {
       console.log("Error locating user:", error);
+      Alert.alert("Location Error", "Unable to get current location.");
     }
   };
 
@@ -93,8 +95,11 @@ const MapPage = () => {
   }, [region]);
 
   if (!region) {
-    console.log("Region Null");
-    return null;
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator size="large" color="#2e9963" />
+      </View>
+    );
   }
 
   return (
@@ -104,8 +109,9 @@ const MapPage = () => {
         region={region}
         showsUserLocation={true}
       >
-        {region && chargers && chargers.map(charger => (
-          <ChargerMarker key={`${charger.id}`} charger={charger} />
+        {Array.isArray(chargers) &&
+          chargers.map((charger, index) => (
+            <ChargerMarker key={charger.id || `charger-${index}`} charger={charger} />
         ))}
       </MapView>
 
@@ -117,8 +123,14 @@ const MapPage = () => {
       <SearchModal
         visible={searchVisible}
         onClose={() => setSearchVisible(false)}
-        onResults={(results: any[]) => setChargers(results)}
+        onResults={(results: any[]) => setChargers(results ?? [])}
       />
+
+      {loading && (
+        <View style={styles.loadingOverlay}>
+          <ActivityIndicator size="large" color="green" />
+        </View>
+      )}
     </View>
   );
 };
@@ -132,10 +144,17 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
   },
-  marker: {
-    width: 40,
-    height: 40,
-    resizeMode: 'contain',
+  centered: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loadingOverlay: {
+    position: 'absolute',
+    top: '50%',
+    left: '45%',
+    transform: [{ translateX: -25 }],
+    zIndex: 10,
   },
 });
 

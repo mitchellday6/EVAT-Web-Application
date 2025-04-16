@@ -6,11 +6,11 @@ import {
   TextInput,
   StyleSheet,
   Button,
+  Alert,
 } from 'react-native';
-
 import { Picker } from '@react-native-picker/picker';
 
-const apiUrl = 'https://evat.vt2.app/api/navigation/getchargersnode';
+const apiUrl = 'https://evat.vt2.app/api/navigation/getchargers';
 
 type SearchModalProps = {
   visible: boolean;
@@ -31,7 +31,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ visible, onClose, onResults }
       const params = new URLSearchParams();
       if (name) params.append('name', name);
       if (location) params.append('location', location);
-      if (distance) params.append('distance', distance);
+      if (distance) params.append('distance', Number(distance).toString());
       if (connector) params.append('connectorType', connector);
       if (current) params.append('current', current);
       if (operator) params.append('operator', operator);
@@ -44,14 +44,22 @@ const SearchModal: React.FC<SearchModalProps> = ({ visible, onClose, onResults }
       });
 
       const data = await response.json();
+      console.log("Search API response:", data);
+
       if (response.ok) {
-        onResults(data.data);
+        if (!data.data || !Array.isArray(data.data)) {
+          Alert.alert("No results found");
+          onResults([]);
+        } else {
+          onResults(data.data);
+        }
       } else {
-        console.error('Search API error:', data);
+        Alert.alert("Search failed", data.message || "Unexpected error");
         onResults([]);
       }
     } catch (err) {
       console.error('Search request failed:', err);
+      Alert.alert("Network error", "Could not fetch chargers.");
       onResults([]);
     } finally {
       onClose();

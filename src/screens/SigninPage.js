@@ -1,5 +1,7 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import { ConfigData } from '../data/config';
+import request from '../util/request';
+import { UserContext } from '../context/user.context';
 import {
   View,
   Text,
@@ -13,10 +15,13 @@ import {
 
 const config = ConfigData();
 const url = `${config.backend.ipAddress}:${config.backend.port}/api/auth/login`
+const url2 = `${config.backend.ipAddress}:${config.backend.port}/api/auth/profile`
+
 
 const SigninPage = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const {user, setUser} = useContext(UserContext);
 
   const handleEmailSignin = async () => {
     try {
@@ -31,10 +36,10 @@ const SigninPage = ({navigation}) => {
       const data = await response.json();
       if (response.ok) {
         // Handle successful sign-in, e.g., navigate to another screen or store user token
-        console.log('Sign-in successful', data);
-        Alert.alert('✅ Sign In', "Success",
+        console.log('Sign-in successful', data.data.user.email);
+        setUser(data.data.user);
+        Alert.alert('✅ Sign In Successful', `${data.data.user.fullName}, welcome back!`,
           [{text: 'Ok', onPress: () => navigation.navigate("MapPage")}]);
-        
       } else {
         // Handle sign-in error, e.g., display an error message
         console.log('❌ Sign-in', data.message);
@@ -45,6 +50,9 @@ const SigninPage = ({navigation}) => {
       console.error('Error signing in:', error);
     }
   };
+
+  // const getUserProfile = async () => {
+  //   request.get('/api/auth/profile?user=',)
 
   const handleGoogleSignin = () => {
     // Implement Google sign-in logic
@@ -109,7 +117,7 @@ const SigninPage = ({navigation}) => {
       </TouchableOpacity>
 
       */}
-      <TouchableOpacity color={"#64b131"} onPress={() => navigation.navigate('Signup')}>
+      <TouchableOpacity color={"#64b131"} onPress={() => navigation.navigate('SignupPage')}>
         <Text style={styles.signupText}>
           Don't you have an account? Go to Sign Up
         </Text>

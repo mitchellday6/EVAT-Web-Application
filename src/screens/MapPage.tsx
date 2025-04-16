@@ -1,7 +1,8 @@
 // declare const navigator: any;
-import GetLocation from 'react-native-get-location';
-import React, { useEffect, useState } from 'react';
-import FakeChargers from '../data/test_amenitites_local.json';
+import GetLocation from 'react-native-get-location'
+import React, { useEffect, useState, useContext, useLayoutEffect } from 'react';
+import { UserContext } from '../context/user.context';
+import {useNavigation} from '@react-navigation/native'
 import {
   Text,
   View,
@@ -15,19 +16,48 @@ import {
   Button
 } from 'react-native';
 
-import MapView, { Marker, Region } from 'react-native-maps';
+import MapView, { Region } from 'react-native-maps';
 import ChargerMarker from '../components/ChargerInfo';
 import { ConfigData } from '../data/config';
 import NavBar from '../components/Navbar';
 import SearchModal from '../components/SearchModal';
+import SearchModal from '../components/SearchModal';
 
 const config = ConfigData();
 const url = `https://evat.vt2.app/api/navigation/getchargersnode`;
+const url = `https://evat.vt2.app/api/navigation/getchargersnode`
+
 
 const MapPage = () => {
   const [region, setRegion] = useState<Region | null>(null);
-  const [chargers, setChargers] = useState<any[]>([]);
-  const [searchVisible, setSearchVisible] = useState(false);
+  const [error, setError] = useState<boolean | null>(null);
+  const [chargers, setChargers] = useState<Object | null>(null);
+  const [searchWindow, setSearchWindow] = useState<Boolean | false>(false);
+  const { user, setUser } = useContext(UserContext);
+
+  const navigation = useNavigation();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <Text style={{ color: 'white', marginRight: 15 }} onPress={() => Alert.alert("User Information",`User: ${user?.fullName}\nEmail: ${user?.email}\nRole: ${user?.role}`)}>
+          {user.fullName}
+        </Text>
+      ),
+    });
+  }, [navigation]);
+
+
+  const searchFunction = () => {
+    console.log('Search Function Called'); 
+    setSearchWindow(true);
+  }
+
+  const settingsFunction = () => {
+    console.log('Settings Function Called');
+  }
+
+  // Alert.alert(`Welcome ${user?.fullName}`, `Click on any Charger icon to get see its details.`, [{text: 'Ok',}]);
 
   const requestLocationPermission = async () => {
     if (Platform.OS === 'android') {
@@ -38,7 +68,7 @@ const MapPage = () => {
         await locateUser();
       }
     } else {
-      await locateUser();
+      //handle position granted
     }
   };
 
@@ -99,6 +129,7 @@ const MapPage = () => {
 
   return (
     <View style={styles.container}>
+      <SearchModal visible={searchWindow} onClose={() => setSearchWindow(false)} />
       <MapView
         style={styles.map}
         region={region}
@@ -108,24 +139,16 @@ const MapPage = () => {
           <ChargerMarker key={`${charger.id}`} charger={charger} />
         ))}
       </MapView>
-
-      <NavBar
-        searchFunction={() => setSearchVisible(true)}
-        settingsFunction={() => Alert.alert("Settings clicked")}
-      />
-
-      <SearchModal
-        visible={searchVisible}
-        onClose={() => setSearchVisible(false)}
-        onResults={(results: any[]) => setChargers(results)}
-      />
-    </View>
+      {/* <View style={styles.navbar}>
+      </View> */}
+      <NavBar />
+    </View >
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    ...StyleSheet.absoluteFillObject,
+    // ...StyleSheet.absoluteFillObject,
     flex: 1,
   },
   map: {

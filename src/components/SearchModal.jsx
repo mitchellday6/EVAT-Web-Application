@@ -29,14 +29,14 @@ const SearchModal = ({ visible, onClose, onResults }) => {
     const navigation = useNavigation();
 
     const handleSearch = async () => {
-        let query = '/api/chargers?';
+        let query = 'https://evat.vt2.app/api/navigation/ev-chargers?';
 
-        if (name) query += `name=${encodeURIComponent(name)}&`;
-        if (location) query += `location=${encodeURIComponent(location)}&`;
+        if (location) {
+            const [lat, lon] = location.split(',').map(coord => coord.trim());
+            query += `lat=${encodeURIComponent(lat)}&lon=${encodeURIComponent(lon)}&`;
+        }
         if (distance) query += `distance=${encodeURIComponent(distance)}&`;
-        if (connectorType) query += `type=${encodeURIComponent(connectorType)}&`;
-        if (current) query += `current=${encodeURIComponent(current)}&`;
-        if (operator) query += `operator=${encodeURIComponent(operator)}&`;
+        if (connectorType) query += `chargerType=${encodeURIComponent(connectorType)}&`;
 
         try {
             const response = await fetch(query, {
@@ -49,7 +49,7 @@ const SearchModal = ({ visible, onClose, onResults }) => {
             const data = await response.json();
 
             if (response.ok) {
-                onResults(data.data); // assuming data.data is the array of chargers
+                onResults(data.data);
                 onClose();
             } else {
                 console.error('Failed to fetch:', data.message);

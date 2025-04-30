@@ -23,7 +23,7 @@ import NavBar from '../components/Navbar';
 import SearchModal from '../components/SearchModal';
 
 const config = ConfigData();
-const url = `https://evat.vt2.app/api/navigation/getchargersnode`
+const url = `https://evat.vt2.app/api/navigation/ev-chargers`
 
 
 const MapPage = () => {
@@ -72,7 +72,7 @@ const MapPage = () => {
 
   const getChargers = async (location: {}, distance: number) => {
     try {
-      const response = await fetch(`${url}?lat=${location.latitude}&lon=${location.longitude}&distance=10000`, {
+      const response = await fetch(`${url}?lat=${location.latitude}&lon=${location.longitude}&distance=${distance}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -83,14 +83,12 @@ const MapPage = () => {
       if (response.ok) {
         // Handle successful get of chargers
         setChargers(data.data);
-        //populate map with icons
-
       } else {
         // Handle get chargers error
-        console.log("Response not ok")
+        console.log("Response not ok:", data.message);
       }
     } catch (error) {
-      console.log("Error with get chargers")
+      console.log("Error with get chargers:", error);
     }
   };
 

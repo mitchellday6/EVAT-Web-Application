@@ -16,49 +16,60 @@ type SearchModalProps = {
   visible: boolean;
   onClose: () => void;
   onResults: (results: any[]) => void;
+  dataIn: {
+    name?: string;
+    latitude?: string;
+    longitude?: string;
+    distance?: string;
+    connector?: string;
+    current?: string;
+    operator?: string;
+  }
 };
 
-const SearchModal: React.FC<SearchModalProps> = ({ visible, onClose, onResults, position }) => {
-  const [name, setName] = React.useState('');
-  const [latitude, setLatitude] = React.useState('');
-  const [longitude, setLongitude] = React.useState('');
-  const [distance, setDistance] = React.useState('');
-  const [connector, setConnector] = React.useState('');
-  const [current, setCurrent] = React.useState('');
-  const [operator, setOperator] = React.useState('');
-  setLatitude(position?.latitude);
-  setLongitude(position?.longitude);
+const SearchModal: React.FC<SearchModalProps> = ({ visible, onClose, onResults, dataIn }) => {
+  const [name, setName] = React.useState(dataIn?.name);
+  const [latitude, setLatitude] = React.useState(dataIn?.latitude);
+  const [longitude, setLongitude] = React.useState(dataIn?.longitude);
+  const [distance, setDistance] = React.useState(dataIn?.distance);
+  const [connector, setConnector] = React.useState(dataIn?.connector);
+  const [current, setCurrent] = React.useState(dataIn?.current);
+  const [operator, setOperator] = React.useState(dataIn?.operator);
+  // setLatitude(position?.latitude);
+  // setLongitude(position?.longitude);
 
   const handleSearch = async () => {
-    try {
-      const params = new URLSearchParams();
-      if (name) params.append('name', name);
-      if (lon) params.append('lon', longitude);
-      if (lat) params.append('lat', longitude);
-      if (distance) params.append('distance', distance);
-      if (connector) params.append('connectorType', connector);
-      if (current) params.append('current', current);
-      if (operator) params.append('operator', operator);d
+    //   try {
+    //     const params = new URLSearchParams();
+    //     if (name) params.append('name', name);
+    //     if (longitude) params.append('lon', longitude);
+    //     if (latitude) params.append('lat', longitude);
+    //     if (distance) params.append('distance', distance);
+    //     if (connector) params.append('connectorType', connector);
+    //     if (current) params.append('current', current);
+    //     if (operator) params.append('operator', operator);
 
-      const response = await fetch(`${apiUrl}?${params.toString()}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-      }});
+    //     const response = await fetch(`${apiUrl}?${params.toString()}`, {
+    //       method: 'GET',
+    //       headers: {
+    //         'Content-Type': 'application/json',
+    //     }});
 
-      const data = await response.json();
-      if (response.ok) {
-        onResults(data.data);
-      } else {
-        console.error('Search API error:', data);
-        onResults([]);
-      }
-    } catch (err) {
-      console.error('Search request failed:', err);
-      onResults([]);
-    } finally {
-      onClose();
-    }
+    //     const data = await response.json();
+    //     if (response.ok) {
+    //       onResults(data.data);
+    //     } else {
+    //       console.error('Search API error:', data);
+    //       onResults([]);
+    //     }
+    //   } catch (err) {
+    //     console.error('Search request failed:', err);
+    //     onResults([]);
+    //   } finally {
+    //     onClose();
+    //   }
+
+    onResults({ latitude, longitude, distance, connector, current, operator });
   };
 
   return (

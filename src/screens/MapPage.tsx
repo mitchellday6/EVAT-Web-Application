@@ -2,7 +2,7 @@
 import GetLocation from 'react-native-get-location'
 import React, { useEffect, useState, useContext, useLayoutEffect } from 'react';
 import { UserContext } from '../context/user.context';
-import {useNavigation} from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 import {
   Text,
   View,
@@ -23,11 +23,16 @@ import NavBar from '../components/Navbar';
 import SearchModal from '../components/SearchModal';
 
 const config = ConfigData();
-const url = `https://evat.vt2.app/api/navigation/getchargersnode`;
 
+//testing
+const url = `https://evat.vt2.app/api/navigation/getchargersnode`;
+config.backend.ipAddress = "http://localhost";
+config.backend.port = 8080;
+const url2 = `${config.backend.ipAddress}:${config.backend.port}/api/altChargers/nearby`
+console.log(url2);
 
 const MapPage = () => {
-  const [region, setRegion] = useState<Region | null>(null);e
+  const [region, setRegion] = useState<Region | null>(null);
   const [error, setError] = useState<boolean | null>(null);
   const [chargers, setChargers] = useState<Object | null>(null);
   const [searchWindow, setSearchWindow] = useState<Boolean | false>(false);
@@ -38,7 +43,7 @@ const MapPage = () => {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <Text style={{ color: 'white', marginRight: 15 }} onPress={() => Alert.alert("User Information",`User: ${user?.fullName}\nEmail: ${user?.email}\nRole: ${user?.role}`)}>
+        <Text style={{ color: 'white', marginRight: 15 }} onPress={() => Alert.alert("User Information", `User: ${user?.fullName}\nEmail: ${user?.email}\nRole: ${user?.role}`)}>
           {user.fullName}
         </Text>
       ),
@@ -75,8 +80,8 @@ const MapPage = () => {
       const response = await fetch(`${url}?lat=${location.latitude}&lon=${location.longitude}&distance=${distance}`, {
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json',
-        }
+          'Content-Type': 'application/json'
+        },
       });
 
       const data = await response.json();
@@ -89,6 +94,44 @@ const MapPage = () => {
       console.log("Error with get chargers", error);
     }
   };
+
+  //Sends request to backend to get chargers
+  const searchChargers = async (data) => {
+    console.log("Search Data", data);
+    try {
+      const params = new URLSearchParams();
+      if (data.name) params.append('name', data.name);
+      if (data.latitude) params.append('lat', data.latitude);
+      if (data.longitude) params.append('lon', data.longitude);
+      if (data.distance) params.append('distance', data.distance);
+      if (data.connector) params.append('connectorType', data.connector);
+      if (data.current) params.append('current', data.current);
+      if (data.operator) params.append('operator', data.operator);
+
+      console.log("Search Params", params.toString());
+
+      const response = await fetch(url2, {
+        method: 'POST',
+        body: JSON.stringify({...data}),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${user.token.accessToken}`
+        }
+      });
+
+      const result = await response.json();
+      console.log("Search Result", result);
+      if (response.ok) {
+        setChargers(result.data);
+        setSearchWindow(false);
+      } else {
+        console.log(response)
+        console.log("Response not ok");
+      }
+    } catch (error) {
+      console.log("Error with search chargers", error);
+    }
+  }
 
   const locateUser = async () => {
     try {
@@ -127,7 +170,7 @@ const MapPage = () => {
 
   return (
     <View style={styles.container}>
-      <SearchModal visible={searchWindow} location={region} onClose={() => setSearchWindow(false)} />
+      <SearchModal dataIn={region} onResults={searchChargers} visible={searchWindow} onClose={() => setSearchWindow(false)} />
       <MapView
         style={styles.map}
         region={region}
@@ -137,9 +180,7 @@ const MapPage = () => {
           <ChargerMarker key={`${i}`} charger={charger} />
         ))}
       </MapView>
-      {/* <View style={styles.navbar}>
-      </View> */}
-      <NavBar searchFunction={searchFunction} settingsFunction={settingsFunction}/>
+      <NavBar searchFunction={searchFunction} settingsFunction={settingsFunction} />
     </View >
   );
 };

@@ -37,7 +37,8 @@ const SigninPage = ({navigation}) => {
       if (response.ok) {
         // Handle successful sign-in, e.g., navigate to another screen or store user token
         console.log('Sign-in successful', data.data.user.email);
-        setUser(data.data.user);
+        const userData = {...data.data.user, token: data.data.accessToken};
+        setUser(userData);
         Alert.alert('✅ Sign In Successful', `${data.data.user.fullName}, welcome back!`,
           [{text: 'Ok', onPress: () => navigation.navigate("MapPage")}]);
       } else {

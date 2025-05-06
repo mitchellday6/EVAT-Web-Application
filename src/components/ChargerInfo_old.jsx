@@ -8,9 +8,9 @@ import { Marker } from 'react-native-maps';
 function ChargerMarker(props) {
   const { charger } = props;
 
-  const title = charger.operator == "Unknown" ? "Charger" :  charger.operator;
-  const location = { latitude: charger.latitude, longitude: charger.longitude }
-  const description = `Chargers: ${charger.charging_points}`
+  const title = charger.title?.toString() || charger.name?.toString() || charger.brand?.toString() || "Charger";
+  const location = { latitude: charger.geometry.location.lat, longitude: charger.geometry.location.lng }
+  const description = charger?.description? charger.description : charger.vicinity
   const rating = charger.rating ? charger.rating : "No rating"
 
   const createRatingStars = () => {
@@ -23,7 +23,7 @@ function ChargerMarker(props) {
   }
 
   const createChargerAlert = () => {
-    const info = `Charger Name: ${charger.name}\nCharging Points: ${charger.charging_points}\nCharger Type: ${charger.type}\nCharger Status: ${charger.status}\nRating: ${createRatingStars()} ${charger.rating}\n` 
+    const info = `Charger Name: ${charger.name}\nCharger Vicinity: ${charger.vicinity}\nCharger Type: ${charger.type}\nCharger Status: ${charger.status}\nRating: ${createRatingStars()} ${charger.rating}\n` 
 
     Alert.alert(title, info, [
       { text: 'Got To Charger', onPress: () => console.log('OK Pressed') },
@@ -39,7 +39,7 @@ function ChargerMarker(props) {
       // onPress={() => setChargerInfo(chargerOptions)}
       coordinate={location}
       title={title}
-      description={description+" (" + createRatingStars()+")"}
+      description={description+" " + createRatingStars()}
       onCalloutPress={() => createChargerAlert()}>
       <Image source={require('../data/ev_charger_symbol.webp')} style={styles.marker} />
     </Marker>

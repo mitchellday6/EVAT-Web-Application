@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Modal,
   View,
@@ -18,9 +18,9 @@ type SearchModalProps = {
   onResults: (results: any[]) => void;
   dataIn: {
     name?: string;
-    latitude?: string;
-    longitude?: string;
-    distance?: string;
+    latitude?: number;
+    longitude?: number;
+    radius?: number;
     connector?: string;
     current?: string;
     operator?: string;
@@ -31,12 +31,16 @@ const SearchModal: React.FC<SearchModalProps> = ({ visible, onClose, onResults, 
   const [name, setName] = React.useState(dataIn?.name);
   const [latitude, setLatitude] = React.useState(dataIn?.latitude);
   const [longitude, setLongitude] = React.useState(dataIn?.longitude);
-  const [distance, setDistance] = React.useState(dataIn?.distance);
+  const [radius, setRadius] = React.useState(dataIn?.radius);
   const [connector, setConnector] = React.useState(dataIn?.connector);
   const [current, setCurrent] = React.useState(dataIn?.current);
   const [operator, setOperator] = React.useState(dataIn?.operator);
   // setLatitude(position?.latitude);
   // setLongitude(position?.longitude);
+
+  useEffect(() => {
+    
+  })
 
   const handleSearch = async () => {
     //   try {
@@ -69,18 +73,28 @@ const SearchModal: React.FC<SearchModalProps> = ({ visible, onClose, onResults, 
     //     onClose();
     //   }
 
-    onResults({ latitude, longitude, distance, connector, current, operator });
+    onResults({
+      latitude,
+      longitude,
+      radius,
+      connector,
+      current,
+      operator });
   };
 
   return (
     <Modal key={18} visible={visible} transparent animationType="slide">
       <View key={16} style={styles.modalContainer}>
         <Text key={1} style={styles.title}>Search Chargers</Text>
-
-        <TextInput key={2} style={styles.input} placeholder="Name" value={name} onChangeText={setName} />
-        <TextInput key={3} style={styles.input} placeholder="Latitude" value={latitude} onChangeText={setLatitude} />
-        <TextInput key={19} style={styles.input} placeholder="Longitude" value={longitude} onChangeText={setLongitude} />
-        <TextInput key={4} style={styles.input} placeholder="Distance (km)" value={distance} onChangeText={setDistance} keyboardType="numeric" />
+        <Text key={20} style={styles.inputTitle}>Name:</Text>
+        <TextInput key={2} keyboardType="numeric" style={styles.input} placeholder="Name" value={name} onChangeText={setName} />
+        
+        <Text key={21} style={styles.inputTitle}>Latitude:</Text>
+        <TextInput key={3} keyboardType="numeric" style={styles.input} placeholder="Latitude" value={latitude} onChangeText={setLatitude} />
+        <Text key={22} style={styles.inputTitle}>Longitude:</Text>
+        <TextInput key={19} keyboardType="numeric" style={styles.input} placeholder="Longitude" value={longitude} onChangeText={setLongitude} />
+        <Text key={23} style={styles.inputTitle}>Radius:</Text>
+        <TextInput key={4} keyboardType="numeric" style={styles.input} placeholder="Radius (km)" value={radius} onChangeText={setRadius} keyboardType="numeric" />
 
         <Picker key={5} selectedValue={connector} onValueChange={setConnector} style={pickerSelectStyles.inputAndroid}>
           <Picker.Item key={6} label="Select Connector" value="" />
@@ -93,7 +107,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ visible, onClose, onResults, 
           <Picker.Item key={11} label="AC" value="ac" />
           <Picker.Item key={12} label="DC" value="dc" />
         </Picker>
-
+        <Text key={24} style={styles.inputTitle}>Operator:</Text>
         <TextInput key={13} style={styles.input} placeholder="Operator" value={operator} onChangeText={setOperator} />
 
         <View key={17} style={styles.buttonContainer}>
@@ -113,23 +127,36 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 10,
     elevation: 5,
+    color: 'black',
   },
   title: {
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 20,
     textAlign: 'center',
+    color: 'black',
+  },
+  inputTitle: {
+    fontSize: 16,
+    textAlign: 'left',
+    color: 'black',
+    width: '25%',
+    flexDirection: 'row'
   },
   input: {
     borderBottomWidth: 1,
     borderColor: '#ccc',
     marginBottom: 15,
     padding: 8,
+    color: 'black',
+    // width: '55%',
+    flexDirection: 'row',
   },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 20,
+    color: 'black',
   },
 });
 
@@ -140,6 +167,7 @@ const pickerSelectStyles = StyleSheet.create({
     borderColor: '#ccc',
     marginBottom: 15,
     paddingHorizontal: 8,
+    color: 'black'
   },
 });
 

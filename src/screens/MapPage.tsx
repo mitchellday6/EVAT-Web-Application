@@ -1,19 +1,20 @@
-// declare const navigator: any;
-import GetLocation from 'react-native-get-location'
-import React, { useEffect, useState, useContext, useLayoutEffect } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useContext,
+  useLayoutEffect,
+  useRef, // ✅ added
+} from 'react';
 import { UserContext } from '../context/user.context';
-import { useNavigation } from '@react-navigation/native'
+import {  useNavigation  } from '@react-navigation/native';
 import {
   Text,
   View,
   StyleSheet,
   PermissionsAndroid,
   Platform,
-  Modal,
   Alert,
   Dimensions,
-  Image,
-  Button
 } from 'react-native';
 
 import MapView, { Region } from 'react-native-maps';
@@ -21,6 +22,8 @@ import ChargerMarker from '../components/ChargerInfo';
 import { ConfigData } from '../data/config';
 import NavBar from '../components/Navbar';
 import SearchModal from '../components/SearchModal';
+import MapViewDirections from 'react-native-maps-directions';
+import Geolocation from '@react-native-community/geolocation';
 
 const config = ConfigData();
 
@@ -34,11 +37,13 @@ let url2 = config.backendURL(mode) + `/api/altChargers/nearby`
 console.log("Mode: ", mode, ", URL: ", url2);
 
 const MapPage = () => {
+  const mapRef = useRef<MapView>(null); // ✅ map reference for centering
   const [region, setRegion] = useState<Region | null>(null);
   const [error, setError] = useState<boolean | null>(null);
   const [chargers, setChargers] = useState<Object | null>(null);
   const [searchWindow, setSearchWindow] = useState<Boolean | false>(false);
   const { user, setUser } = useContext(UserContext);
+  const [selectedCharger, setSelectedCharger] = useState<{ latitude: number; longitude: number } | null>(null);
 
   const navigation = useNavigation();
 
@@ -52,30 +57,8 @@ const MapPage = () => {
     });
   }, [navigation]);
 
-
-  const searchFunction = () => {
-    console.log('Search Function Called');
-    setSearchWindow(true);
-  }
-
-  const settingsFunction = () => {
-    console.log('Settings Function Called');
-  }
-
-  // Alert.alert(`Welcome ${user?.fullName}`, `Click on any Charger icon to get see its details.`, [{text: 'Ok',}]);
-
-  const requestLocationPermission = async () => {
-    if (Platform.OS === 'android') {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
-      );
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        await locateUser();
-      }
-    } else {
-      //handle position granted
-    }
-  };
+  const searchFunction = () => setSearchWindow(true);
+  const settingsFunction = () => console.log('Settings Function Called');
 
  
   //Sends request to backend to get chargers - function to work with the new backend endpoint
@@ -145,24 +128,43 @@ const MapPage = () => {
     <View style={styles.container}>
       <SearchModal dataIn={region} onResults={searchChargers} visible={searchWindow} onClose={() => setSearchWindow(false)} />
       <MapView
+        ref={mapRef} // ✅ attach ref to MapView
         style={styles.map}
         region={region}
         showsUserLocation={true}
       >
-        {region && chargers && chargers.map((charger, i) => (
-          <ChargerMarker key={`${i}`} charger={charger} />
+        {chargers && chargers.map((charger, idx) => (
+          <ChargerMarker
+            key={`${idx}`}
+            charger={charger}
+            onPress={(location) => setSelectedCharger(location)}
+          />
         ))}
+
+        {selectedCharger && (
+          <MapViewDirections
+            origin={{ latitude: region.latitude, longitude: region.longitude }}
+            destination={selectedCharger}
+            apikey={"AIzaSyDCzcXBa_XmfVjGsapneInLFHruLdEit28"}
+            strokeWidth={6}
+            strokeColor="blue"
+            onReady={result => {
+              console.log(`Route found. Distance: ${result.distance} km, Duration: ${result.duration} min`);
+            }}
+            onError={errorMessage => {
+              console.error("Directions error:", errorMessage);
+            }}
+          />
+        )}
       </MapView>
+
       <NavBar searchFunction={searchFunction} settingsFunction={settingsFunction} />
-    </View >
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    // ...StyleSheet.absoluteFillObject,
-    flex: 1,
-  },
+  container: { flex: 1 },
   map: {
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,

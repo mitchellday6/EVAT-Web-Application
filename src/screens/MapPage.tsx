@@ -24,12 +24,14 @@ import SearchModal from '../components/SearchModal';
 
 const config = ConfigData();
 
-//testing
-const url = `https://evat.vt2.app/api/navigation/getchargersnode`;
-config.backend.ipAddress = "http://localhost";
-config.backend.port = 8080;
-const url2 = `${config.backend.ipAddress}:${config.backend.port}/api/altChargers/nearby`
-console.log(url2);
+
+//set the mode of the application to either dev or prod
+const mode = config.mode;
+//set the backend URL based on the mode of the application
+let url2 = config.backendURL(mode) + `/api/altChargers/nearby`
+ 
+
+console.log("Mode: ", mode, ", URL: ", url2);
 
 const MapPage = () => {
   const [region, setRegion] = useState<Region | null>(null);
@@ -75,44 +77,14 @@ const MapPage = () => {
     }
   };
 
-  const getChargers = async (location: any, distance: number) => {
-    try {
-      const response = await fetch(`${url}?lat=${location.latitude}&lon=${location.longitude}&distance=${distance}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-      });
-
-      const data = await response.json();
-      if (response.ok) {
-        setChargers(data.data);
-      } else {
-        console.log("Response not ok");
-      }
-    } catch (error) {
-      console.log("Error with get chargers", error);
-    }
-  };
-
-  //Sends request to backend to get chargers
+ 
+  //Sends request to backend to get chargers - function to work with the new backend endpoint
   const searchChargers = async (data) => {
-    console.log("Search Data", data);
     try {
-      const params = new URLSearchParams();
-      if (data.name) params.append('name', data.name);
-      if (data.latitude) params.append('lat', data.latitude);
-      if (data.longitude) params.append('lon', data.longitude);
-      if (data.distance) params.append('distance', data.distance);
-      if (data.connector) params.append('connectorType', data.connector);
-      if (data.current) params.append('current', data.current);
-      if (data.operator) params.append('operator', data.operator);
-
-      console.log("Search Params", params.toString());
-
+      setSearchWindow(false);
       const response = await fetch(url2, {
         method: 'POST',
-        body: JSON.stringify({...data}),
+        body: JSON.stringify(data),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${user.token.accessToken}`
@@ -120,9 +92,10 @@ const MapPage = () => {
       });
 
       const result = await response.json();
-      console.log("Search Result", result);
+
       if (response.ok) {
-        setChargers(result.data);
+        Alert.alert("Chargers Found", `Found ${result.count} chargers`, [{ text: 'Ok', }]);
+        setChargers(result.chargers);
         setSearchWindow(false);
       } else {
         console.log(response)
@@ -159,7 +132,7 @@ const MapPage = () => {
 
   useEffect(() => {
     if (region) {
-      getChargers(region, 30000);
+      searchChargers({...region, radius: 5});
     }
   }, [region]);
 

@@ -14,8 +14,13 @@ import {
 } from 'react-native';
 
 const config = ConfigData();
-const url = `${config.backend.ipAddress}:${config.backend.port}/api/auth/login`
-const url2 = `${config.backend.ipAddress}:${config.backend.port}/api/auth/profile`
+
+
+//temporary way to set to dev or production mode
+//set the mode of the application to either dev or prod
+const mode = config.mode;
+//set the backend URL based on the mode of the application
+const url = config.backendURL(mode) + `/api/auth/login`
 
 
 const SigninPage = ({navigation}) => {
@@ -36,7 +41,6 @@ const SigninPage = ({navigation}) => {
       const data = await response.json();
       if (response.ok) {
         // Handle successful sign-in, e.g., navigate to another screen or store user token
-        console.log('Sign-in successful', data.data.user.email);
         const userData = {...data.data.user, token: data.data.accessToken};
         setUser(userData);
         Alert.alert('✅ Sign In Successful', `${data.data.user.fullName}, welcome back!`,

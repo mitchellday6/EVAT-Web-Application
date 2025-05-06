@@ -13,7 +13,10 @@ import {
 } from 'react-native';
 
 const config = ConfigData();
-const url = `${config.backend.ipAddress}:${config.backend.port}/api/auth/register`
+//set the mode of the application to either dev or prod
+const mode = config.mode;
+//set the backend URL based on the mode of the application
+const url = config.backendURL(mode) + `/api/auth/register`
 
 const SignupPage = ({ navigation }) => {
   const [fullName, setName] = useState('');
@@ -35,7 +38,7 @@ const SignupPage = ({ navigation }) => {
       if (response.ok) {
         // Handle successful sign-up
         console.log('✅ Sign-up successful', data);
-        Alert.alert('✅ Sign Up', "Success"
+        Alert.alert('✅ Sign Up successful', ` ${data.message}: ${fullName}`, 
                   [{text: 'Ok', onPress: () => navigation.navigate("SigninPage")}]);
       } else {
         // Handle sign-up error

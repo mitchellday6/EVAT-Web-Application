@@ -15,9 +15,10 @@ from concurrent.futures import ThreadPoolExecutor
 from functools import lru_cache
 import overpy
 import sys
+mongoURL = os.getenv("mongoURL")
 
 # MongoDB connection
-client = MongoClient("mongodb+srv://EVAT:EVAT123@cluster0.5axoq.mongodb.net/")
+client = MongoClient(mongoURL)
 db = client['EVAT']  # Replace with your MongoDB database name
 charging_stations_collection = db['charging_stations']  # Replace with your collection name
 # print(charging_stations_collection)
